@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href={% static 'main/css/styles_index.css' %} />
+{% endblock head %}
+{% block body %}
+    <header>
+        <div class="c_header-content">
+            <h2>
+                <span class="accent_symbol">E</span>xplore,
+                <span class="accent_symbol">C</span>reate,
+                <span class="accent_symbol">S</span>hare
+            </h2>
+            <div class="c_line"></div>
+            <h1 class="c_magic">Articles For Everyone</h1>
+            <a href="#cid_latest" class="waves-effect waves-light btn c_btn">Dive In</a>
+        </div>
+    </header>
+    <div class="c_divider"></div>
+{% endblock body %}
+{% block container %}
+    <div class="c_trending">
+        <h4 class="c_sec_heading">Trending</h4>
+        <div class="row">
+            {% for article in trending_articles %}
+                <div class="col s12 m6 l4" style="padding: 20px">
+                    <p class="c_title">
+                        <a href={% url 'article_details' article.pk %}>{{ article.title }}</a>
+                    </p>
+                    <div>
+                        <i class="fa-solid fa-user-pen"></i>
+                        <a href={% url 'user_details' article.user.pk %}>{{ article.user }}</a>
+                        &nbsp
+                        <i class="fa-regular fa-heart"> {{ article.likes }}</i>
+                        &nbsp
+                        <i class="fa-regular fa-comment"> {{ article.comment.all.count }}</i>
+                    </div>
+                    <div class="c_date_time">{{ article.created_at }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        {% comment %} Articles column {% endcomment %}
+        <div class="col m8">
+            <h4 id="cid_latest">Latest Articles</h4>
+            {% for article in latest_articles %}
+                <div class="section ">
+                    <h5>
+                        <a href={% url 'article_details' article.pk %}>{{ article.title }}</a>
+                    </h5>
+                    <div>
+                        <i class="fa-solid fa-user-pen"></i>
+                        <a href={% url 'user_details' article.user.pk %}>{{ article.user }}</a>
+                        &nbsp
+                        <i class="fa-regular fa-heart"> {{ article.likes }}</i>
+                        &nbsp
+                        <i class="fa-regular fa-comment"> {{ article.comment.all.count }}</i>
+                    </div>
+                    <p>{{ article.content }}</p>
+                    <span class="new badge" data-badge-caption="">{{ article.tag.name }}</span>
+                    <p class="c_date_time">{{ article.created_at }}</p>
+                </div>
+                <div class="divider"></div>
+            {% endfor %}
+        </div>
+        {% comment %} Explore column {% endcomment %}
+        <div class="col m4">
+            <br />
+            <div class="row right-align">
+                {% for tag in tags %}
+                    <div class="col s12">
+                        <a href="{% url 'tag_details' tag.pk %}"
+                           class="waves-effect waves-light btn c_tags">{{ tag }}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock container %}

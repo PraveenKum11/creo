@@ -1,0 +1,47 @@
+{% load static %}
+<nav>
+  <div class="nav-wrapper">
+    <a href={% url 'home' %} class="brand-logo"><i class="fa-solid fa-cubes"></i></a>
+    <a href="#" data-target="slide-out" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <ul class="right hide-on-med-and-down">
+      <li>
+        <a href={% url 'create_article' %}>Create</a>
+      </li>
+      <li>
+        {% if user.is_authenticated %}
+          <a href={% url 'cauth:logout' %}>Logout</a>
+        {% else %}
+          <a href={% url 'cauth:login' %}>Login</a>
+        {% endif %}
+      </li>
+      {% if user.is_authenticated == False %}
+      <li>
+        <a href={% url 'cauth:register' %} class="waves-effect waves-light btn c_btn">Get Started</a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+<ul id="slide-out" class="sidenav">
+  <li>
+    <div class="user-view">
+      <div class="background">
+        <img src={% static 'main/media/img2.png' %}/>
+      </div>
+      <a href="#user">
+        <img class="circle" src={% static 'main/media/img1.png' %} />
+      </a>
+      <a href="#name"><span class="white-text name">John Doe</span></a>
+      <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+    </div>
+  </li>
+  <li>
+    <a class="waves-effect" href={% url 'create_article' %}>Create</a>
+  </li>
+  <li>
+    <a class="waves-effect" href={% url 'home' %}>Login</a>
+  </li>
+  <li>
+    {% comment %} <a class="waves-effect waves-light btn c_btn">Get Started</a> {% endcomment %}
+  </li>
+</ul>

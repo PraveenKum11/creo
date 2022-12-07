@@ -1,0 +1,8 @@
+.c_date_time {
+    font-size: small;
+    font-style: italic;
+}
+
+select {
+    display: block;
+}

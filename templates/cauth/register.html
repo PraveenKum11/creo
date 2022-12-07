@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href={% static 'cauth/styles.css' %} />
+{% endblock head %}
+
+{% block container %}
+    {% if messages %}
+    {% for message in messages %}
+        <p class="center-align">{{ message }}</p>
+    {% endfor %}
+    {% endif %}
+    <div class="row c_form_container">
+        <h4 class="center">Begin your reading journey today ...</h4>
+        <form method="POST">
+            {% csrf_token %}
+            {{ register_form }}
+            <p class="center">
+                <button type="submit" class="btn c_btn">Register</button>
+            </p>
+        </form>
+        <p class="center">Already have an account? <a href={% url 'cauth:login' %}>Log In</a></p>
+    </div>
+{% endblock container %}

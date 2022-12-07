@@ -1,0 +1,12 @@
+:root {
+    --accent-color: #F75C03;
+    --accent-color1: #26a69a;
+}
+
+/* .c_container{
+    float: right;
+} */
+
+.c_form_container {
+    max-width: 30rem;
+}

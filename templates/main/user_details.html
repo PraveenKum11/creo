@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href={% static 'main/css/styles_user_details.css' %} />
+{% endblock head %}
+
+{% block container %}
+    <h3>More from {{ user }} : </h3>
+    <div class="collection">
+        {% comment %}
+            NOTE: We do not call the all(), 
+            calling is handeled by the template engine
+        {% endcomment %}
+        {% for article in user.article_set.all %}
+            <a href="{% url "article_details" article.pk %}" class="collection-item">
+                <li> {{ article }} </li>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock container %}
