@@ -4,9 +4,10 @@
 {% block container %}
     <form method="POST">
         {% csrf_token %}
-        {{ article_form }}
+        {{ article_form.media }}
+        {{ article_form.as_p }}
         <label for="author">Author</label>
-        <input type="text" id="author" value={{ user.username }} readonly />
+        <input name="username" type="text" id="author" value={{ user.username }} readonly />
         <br />
         <div class="right-align">
             <button type="submit" class="waves-effect waves-light btn c_btn">Publish</button>

@@ -48,8 +48,6 @@ def register(request):
         register_form = forms.Register(request.POST)
         if register_form.is_valid():
             clean_user = {
-                "first_name" : register_form.cleaned_data["first_name"],
-                "last_name" : register_form.cleaned_data["last_name"],
                 "username" : register_form.cleaned_data["username"],
                 "password" : register_form.cleaned_data["password"],
             }

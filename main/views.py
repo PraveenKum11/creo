@@ -5,6 +5,7 @@ from django.shortcuts import (
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 from main import (
     models,
@@ -100,31 +101,49 @@ def create_article(request):
                 "title" : request.POST["title"],
                 "content" : request.POST["content"],
                 "tag" : tag,
-                "user" : get_user_model().objects.get(pk = 1),
+                "user" : get_user_model().objects.filter(username=request.POST["username"])[0],
             }
             models.Article.objects.create(**new_article)
             return HttpResponseRedirect("/")
 
     context = {
         "article_form" : article_form,
-        "user_name" : get_user_model().objects.get(pk = 1)
     }
 
     return render(request, "main/create_article.html", context)
 
 @login_required(login_url="/auth/login")
 def delete_article(request, pk):
-    get_object_or_404(models.Article.objects, pk = pk).delete()
+    article = get_object_or_404(models.Article.objects, pk = pk)
+
+    if article.user == request.user:
+        article.delete()
+    else:
+        print("no no no")
+
     return HttpResponseRedirect("/")
 
 @login_required(login_url="/auth/login")
 def edit_article(request, pk):
     article = models.Article.objects.get(pk = pk)
-    edit_form = forms.Article(article)
-    # print(article.)
+    form_init = {
+        "title" : article.title,
+        "content" : article.content,
+        "tag" : article.tag,
+    }
+    edit_form = forms.Article(initial=form_init)
 
     context = {
         "edit_form" : edit_form,
     }
+
+    if request.method == "POST":
+        # Updating the article with the new changes
+        article.title = request.POST["title"]
+        article.content = request.POST["content"]
+        article.tag = models.Tag.objects.get(pk = request.POST["tag"])
+        article.save()
+
+        return HttpResponseRedirect(reverse(article_details, kwargs={"pk" : pk}))
 
     return render(request, "main/edit_article.html", context)

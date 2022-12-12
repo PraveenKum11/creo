@@ -14,11 +14,13 @@
           <a href={% url 'cauth:login' %}>Login</a>
         {% endif %}
       </li>
-      {% if user.is_authenticated == False %}
       <li>
+      {% if user.is_authenticated == False %}
         <a href={% url 'cauth:register' %} class="waves-effect waves-light btn c_btn">Get Started</a>
-      </li>
+      {% else %}
+        <a href="#">{{ user.username }}</a>
       {% endif %}
+      </li>
     </ul>
   </div>
 </nav>

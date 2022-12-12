@@ -4,7 +4,8 @@
 {% block container %}
     <form method="POST">
         {% csrf_token %}
-        {{ article_form }}
+        {{ edit_form.media }}
+        {{ edit_form.as_p }}
         <label for="author">Author</label>
         <input type="text" id="author" value={{ user.username }} readonly />
         <br />

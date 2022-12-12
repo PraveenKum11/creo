@@ -58,7 +58,7 @@
                         &nbsp
                         <i class="fa-regular fa-comment"> {{ article.comment.all.count }}</i>
                     </div>
-                    <p>{{ article.content }}</p>
+                    <p>{{ article.content|safe }}</p>
                     <span class="new badge" data-badge-caption="">{{ article.tag.name }}</span>
                     <p class="c_date_time">{{ article.created_at }}</p>
                 </div>

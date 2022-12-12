@@ -4,9 +4,11 @@ from django.core.validators import (
 )
 from django.contrib.auth.models import User
 
+from ckeditor.fields import RichTextField
+
 class Article(models.Model):
     title = models.CharField(max_length=256)
-    content = models.TextField()
+    content = RichTextField()
     created_at = models.DateTimeField(auto_now_add=True)
     likes = models.IntegerField(
             default=1, 
@@ -14,7 +16,7 @@ class Article(models.Model):
                 MinValueValidator(1),
             ]
     )
-    comment = models.ManyToManyField("Comment")
+    comment = models.ManyToManyField("Comment", blank=True)
     # TODO
     # Need to add one to many field so we can have on_delete
 
