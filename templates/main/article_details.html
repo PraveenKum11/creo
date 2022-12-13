@@ -28,7 +28,7 @@
     {% endif %}
 
     <div class="divider"></div>
-    <p>{{ article.content|safe }}</p>
+    <div class="c_article_content">{{ article.content|safe }}</div>
 
     <br />
     <h5>Comments</h5>
@@ -40,6 +40,8 @@
             <span class="title"><b>{{ comment.commentor }}</b></span>
             <p>{{ comment.comment_content }}</p>
             </li>
+        {% empty %}
+            <li><b>No comments found, be the first one :)</b></li>
         {% endfor %}
 
         <li class="collection-item ">

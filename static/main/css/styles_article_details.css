@@ -1,4 +1,10 @@
-.collection, .collection-item.avatar
-{
+.collection,
+.collection-item.avatar {
     border: none;
+}
+
+.c_article_content {
+    inline-size: 75vw;
+    overflow: hidden;
+    overflow-wrap: break-word;
 }

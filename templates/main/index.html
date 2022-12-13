@@ -37,16 +37,18 @@
                     </div>
                     <div class="c_date_time">{{ article.created_at }}</div>
                 </div>
+            {% empty %}
+                <li>Sorry, no article found</li>
             {% endfor %}
         </div>
     </div>
     <hr />
     <div class="row">
         {% comment %} Articles column {% endcomment %}
-        <div class="col m8">
+        <div class="col m8" style="overflow: hidden;">
             <h4 id="cid_latest">Latest Articles</h4>
             {% for article in latest_articles %}
-                <div class="section ">
+                <div class="section" style="overflow: hidden; max-width: 50vw;">
                     <h5>
                         <a href={% url 'article_details' article.pk %}>{{ article.title }}</a>
                     </h5>
@@ -58,11 +60,15 @@
                         &nbsp
                         <i class="fa-regular fa-comment"> {{ article.comment.all.count }}</i>
                     </div>
-                    <p>{{ article.content|safe }}</p>
-                    <span class="new badge" data-badge-caption="">{{ article.tag.name }}</span>
-                    <p class="c_date_time">{{ article.created_at }}</p>
+                    <div class="c_index_article_content">{{ article.content|truncatewords_html:50|safe }}</div>
+                    <p class="c_date_time">
+                        {{ article.created_at }}
+                        <span class="new badge" data-badge-caption="">{{ article.tag.name }}</span>
+                    </p>
                 </div>
                 <div class="divider"></div>
+            {% empty %}
+                <li>Sorry, no article found</li>
             {% endfor %}
         </div>
         {% comment %} Explore column {% endcomment %}
