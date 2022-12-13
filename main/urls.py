@@ -11,3 +11,9 @@ urlpatterns = [
     path("delete_article/<int:pk>", views.delete_article, name = "delete_article"),
     path("edit_article/<int:pk>", views.edit_article, name = "edit_article"),
 ]
+
+htmx_urlpatterns = [
+    path("check_username/", views.check_username, name = "check_username")
+]
+
+urlpatterns += htmx_urlpatterns

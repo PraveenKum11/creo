@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block head %}
     <link rel="stylesheet" href={% static 'cauth/styles.css' %} />
@@ -15,7 +16,16 @@
         <h4 class="center">Begin your reading journey today ...</h4>
         <form method="POST">
             {% csrf_token %}
-            {{ register_form }}
+
+            <label>{{ register_form.username.label_tag }}</label>
+            {% render_field register_form.username hx-post="/check_username/" hx-swap="outerhtml" hx-trigger="keyup delay:2s" hx-target="#username-error" %}
+            <div id="username-error"></div>
+
+            <label>{{ register_form.password.label_tag }}</label>
+            {% render_field register_form.password %}
+
+            <label>{{ register_form.confirm_password.label_tag }}</label>
+            {% render_field register_form.confirm_password %}
             <p class="center">
                 <button type="submit" class="btn c_btn">Register</button>
             </p>

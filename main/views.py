@@ -3,7 +3,10 @@ from django.shortcuts import (
     get_object_or_404,
 )
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.http import (
+    HttpResponseRedirect,
+    HttpResponse,
+)
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
@@ -147,3 +150,11 @@ def edit_article(request, pk):
         return HttpResponseRedirect(reverse(article_details, kwargs={"pk" : pk}))
 
     return render(request, "main/edit_article.html", context)
+
+def check_username(request):
+    username = request.POST.get("username")
+    if get_user_model().objects.filter(username=username).exists():
+        return HttpResponse("<div id='username-error' class='error'>This username exists</div>")
+    else:
+        return HttpResponse("<div id='username-error' class='success'>This username is available</div>")
+
