@@ -18,7 +18,7 @@
             {% csrf_token %}
 
             <label>{{ register_form.username.label_tag }}</label>
-            {% render_field register_form.username hx-post="/check_username/" hx-swap="outerhtml" hx-trigger="keyup delay:2s" hx-target="#username-error" %}
+            {% render_field register_form.username hx-post="/auth/check_username/" hx-swap="outerhtml" hx-trigger="keyup delay:2s" hx-target="#username-error" %}
             <div id="username-error"></div>
 
             <label>{{ register_form.password.label_tag }}</label>

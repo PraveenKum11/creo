@@ -2,6 +2,7 @@ from django.shortcuts import (
     render,
     get_object_or_404,
 )
+
 from django.contrib.auth.decorators import login_required
 from django.http import (
     HttpResponseRedirect,
@@ -151,10 +152,24 @@ def edit_article(request, pk):
 
     return render(request, "main/edit_article.html", context)
 
-def check_username(request):
-    username = request.POST.get("username")
-    if get_user_model().objects.filter(username=username).exists():
-        return HttpResponse("<div id='username-error' class='error'>This username exists</div>")
-    else:
-        return HttpResponse("<div id='username-error' class='success'>This username is available</div>")
+def like_article(request, pk):
+    article = get_object_or_404(models.Article, pk = pk)
+    user = get_user_model().objects.get(pk = article.user.pk)
 
+    context = {
+        "article" : article,
+        "change" : None,
+    }
+
+    # if not request.user.is_authenticated:
+    #     return render(request, "main/partials/user_likes.html", context)
+
+    if article.likes.all().contains(user):
+        article.likes.remove(user)
+        context["change"] = 1
+    else:
+        article.likes.add(user)
+        article.save()
+        context["change"] = -1
+
+    return render(request, "main/partials/user_likes.html", context)

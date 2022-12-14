@@ -1,0 +1,5 @@
+
+<form method="POST" style="display: inline;" id="like_form">
+    {% csrf_token %}
+    <i class="fa-regular fa-heart" hx-post={% url 'like_article' article.pk %} hx-trigger="click" hx-swap="outerhtml" hx-target="#like_form"> {{ article.likes.all.count }}</i>
+</form>

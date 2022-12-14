@@ -14,7 +14,7 @@
         <i class="fa-solid fa-user-pen"></i>
         <a href={% url 'user_details' article.user.pk %}>{{ article.user }}</a>
         &nbsp
-        <i class="fa-regular fa-heart"> {{ article.likes }}</i>
+        {% include "main/partials/user_likes.html" %}
         &nbsp
         <i class="fa-regular fa-comment"> {{ article.comment.all.count }}</i>
     </div>

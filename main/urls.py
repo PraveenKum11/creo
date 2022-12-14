@@ -13,7 +13,7 @@ urlpatterns = [
 ]
 
 htmx_urlpatterns = [
-    path("check_username/", views.check_username, name = "check_username")
+    path("like_article/<int:pk>", views.like_article, name = "like_article"),
 ]
 
 urlpatterns += htmx_urlpatterns

@@ -10,12 +10,8 @@ class Article(models.Model):
     title = models.CharField(max_length=256)
     content = RichTextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    likes = models.IntegerField(
-            default=1, 
-            validators=[
-                MinValueValidator(1),
-            ]
-    )
+
+    likes = models.ManyToManyField(User, blank=True, related_name="likes")
     comment = models.ManyToManyField("Comment", blank=True)
     # TODO
     # Need to add one to many field so we can have on_delete
