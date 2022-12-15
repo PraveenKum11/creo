@@ -53,6 +53,7 @@ def article_details(request, pk):
     #     raise Http404()
     article = get_object_or_404(models.Article, pk = pk)
 
+    # for handling comments 
     if request.method == "POST":
         comment_form = forms.Comment(request.POST)
         if comment_form.is_valid():
@@ -67,7 +68,12 @@ def article_details(request, pk):
     context = {
         "article" : article,
         "comment_form" : comment_form,
+        "liked" : None
     }
+
+    user = get_user_model().objects.get(pk = article.user.pk)
+    if article.likes.all().contains(user):
+        context["liked"] = True
 
     return render(request, "main/article_details.html", context)
 
@@ -158,18 +164,15 @@ def like_article(request, pk):
 
     context = {
         "article" : article,
-        "change" : None,
+        "liked" : None
     }
-
-    # if not request.user.is_authenticated:
-    #     return render(request, "main/partials/user_likes.html", context)
 
     if article.likes.all().contains(user):
         article.likes.remove(user)
-        context["change"] = 1
+        context["liked"] = None
     else:
         article.likes.add(user)
         article.save()
-        context["change"] = -1
+        context["liked"] = True
 
     return render(request, "main/partials/user_likes.html", context)
