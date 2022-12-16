@@ -10,6 +10,7 @@ from django.http import (
 )
 from django.contrib.auth import get_user_model
 from django.urls import reverse
+from django.contrib import messages
 
 from main import (
     models,
@@ -71,8 +72,7 @@ def article_details(request, pk):
         "liked" : None
     }
 
-    user = get_user_model().objects.get(pk = article.user.pk)
-    if article.likes.all().contains(user):
+    if article.likes.all().contains(request.user):
         context["liked"] = True
 
     return render(request, "main/article_details.html", context)
@@ -160,11 +160,11 @@ def edit_article(request, pk):
 
 def like_article(request, pk):
     article = get_object_or_404(models.Article, pk = pk)
-    user = get_user_model().objects.get(pk = article.user.pk)
+    user = request.user
 
     context = {
         "article" : article,
-        "liked" : None
+        "liked" : None,
     }
 
     if article.likes.all().contains(user):

@@ -6,7 +6,9 @@
 {% endblock head %}
 
 {% block container %}
-    <h3>More from {{ user }} : </h3>
+
+    <h3 class="center-align">{{ user }}</h3>
+    <img src={% static 'main/media/img1.png' %} class="circle responsive-img user-img" alt="user-img" />
     <div class="collection">
         {% comment %}
             NOTE: We do not call the all(), 

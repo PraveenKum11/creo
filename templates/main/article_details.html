@@ -8,6 +8,9 @@
 {% endblock head %}
 
 {% block container %}
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
     <h3>{{ article.title }}</h3>
 
     <div>
