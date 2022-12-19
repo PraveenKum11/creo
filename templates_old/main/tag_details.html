@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block container %}
+    <h3>More on <span class="waves-effect waves-light btn c_tags">{{ tag.name }}</span> : </h3>
+    <div class="collection">
+        {% for article in tag.article_set.all %}
+            <a href="{% url "article_details" article.pk %}" class="collection-item">
+                <li> {{ article }} </li>
+            </a>
+        {% endfor %}
+    </div>
+{% endblock container %}

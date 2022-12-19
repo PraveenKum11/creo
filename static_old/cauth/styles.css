@@ -1,0 +1,18 @@
+:root {
+    --accent-color: #F75C03;
+    --accent-color1: #26a69a;
+}
+
+.c_form_container {
+    max-width: 30rem;
+}
+
+.success {
+    color: green;
+    transition: all ease-in .5s;
+}
+
+.error {
+    color: red;
+    transition: all ease-in .5s;
+}

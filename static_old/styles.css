@@ -1,0 +1,13 @@
+.c_date_time {
+    font-size: small;
+    font-style: italic;
+}
+
+select {
+    display: block;
+}
+
+.c_index_article_content {
+    overflow: hidden;
+    max-height: 50vh;
+}

@@ -1,0 +1,21 @@
+<p>
+<!-- Modal Trigger -->
+    <a href={% url 'edit_article' article.pk %}>
+        <i class="fa-solid fa-pen-to-square" > Edit</i>
+    </a>
+    &nbsp
+    <a class="modal-trigger" href="#modal1">
+        <i class="fa-solid fa-trash"> Delete</i>
+    </a>
+</p>
+
+<!-- Modal Structure -->
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4>Warning</h4>
+        <p>Are you sure you want to delete the article ?</p>
+    </div>
+    <div class="modal-footer">
+        <a href={% url 'delete_article' article.pk %} class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+</div>

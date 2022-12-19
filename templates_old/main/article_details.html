@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block head %}
+    <link rel="stylesheet" href={% static 'main/css/styles_article_details.css' %} />
+    <script src={% static 'main/js/modal.js' %}></script>
+{% endblock head %}
+
+{% block container %}
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+    <h3>{{ article.title }}</h3>
+
+    <div>
+        <i class="fa-solid fa-user-pen"></i>
+        <a href={% url 'user_details' article.user.pk %}>{{ article.user }}</a>
+        &nbsp
+        {% include "main/partials/user_likes.html" %}
+        &nbsp
+        <i class="fa-regular fa-comment"> {{ article.comment.all.count }}</i>
+    </div>
+
+    <p>
+    <span class="c_date_time"> {{ article.created_at }} </span>
+    <span class="new badge" data-badge-caption="">{{ article.tag.name }}</span>
+    </p>
+    {% if user.is_authenticated and user == article.user %}
+    {% include "main/user_options.html" %}
+    {% endif %}
+
+    <div class="divider"></div>
+    <div class="c_article_content">{{ article.content|safe }}</div>
+
+    <br />
+    <h5>Comments</h5>
+    <div class="divider"></div>
+    <ul class="collection">
+        {% for comment in article.comment.all %}
+            <li class="collection-item avatar">
+            <i class="material-icons circle">folder</i>
+            <span class="title"><b>{{ comment.commentor }}</b></span>
+            <p>{{ comment.comment_content }}</p>
+            </li>
+        {% empty %}
+            <li><b>No comments found, be the first one :)</b></li>
+        {% endfor %}
+
+        <li class="collection-item ">
+            <form method="POST">
+                {% csrf_token %}
+                {% render_field comment_form.commentor|append_attr:"readonly:readonly" value=user %}
+                {% render_field comment_form.comment_content placeholder=comment_form.comment_content.label %}
+                <div class="right-align">
+                <button class="waves-effect waves-light btn c_btn" type="submit">Comment</button>
+                </div>
+            </form>
+        </li>
+    </ul>
+
+{% endblock container %}

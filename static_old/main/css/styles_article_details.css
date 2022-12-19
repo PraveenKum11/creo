@@ -1,0 +1,45 @@
+.collection,
+.collection-item.avatar {
+    border: none;
+}
+
+.c_article_content {
+    inline-size: 65vw;
+    overflow: hidden;
+    overflow-wrap: break-word;
+}
+
+.like-simple {
+    transition: all ease 1s;
+}
+
+@keyframes heart-beat {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    25% {
+        transform: scale(0.75);
+        opacity: 0.75;
+    }
+
+    75% {
+        transform: scale(1.25);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.like-simple:hover {
+    animation : heart-beat .50s infinite;
+}
+
+.like-increase {
+    color: red;
+    transition: all ease 1s;
+}

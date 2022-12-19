@@ -1,0 +1,135 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+@import url("https://fonts.googleapis.com/css?family=Merriweather");
+
+/* Table of contents 
+*   1. General
+*   2. User profile 
+*   3. User posts
+*   4. User post
+*/
+
+/* 1. General */
+:root {
+    --background-color-form: #fcfcfc;
+
+    --color: #707070;
+    --color-h1: #3e3e3e;
+    --color-name: #000000;
+    --color-tag: #6b6b6b;
+    --color-button: #ffffff;
+
+    --font-family-montserrat: "Montserrat", sans-serif;
+    --font-family-merriweather: "Merriweather", serif;
+
+    --font-size-small: 0.75em;
+    --font-size-normal: 1em;
+    --font-size-large: 1.25em;
+
+    --border-color: #c5c5c5;
+
+    --primary: #f8cfb4;
+}
+
+.user-details {
+    color: var(--color);
+    font-family: var(--font-family-montserrat);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* 2. User profile */
+.user-profile {
+    margin-bottom: 20px;
+    width: 70%;
+}
+
+.user-profile__wrapper {
+    position: relative;
+}
+
+.user-profile__background {
+    background: url("https://images.pexels.com/photos/57542/pexels-photo-57542.jpeg?auto=compress&cs=tinysrgb&h=500&w=`960") center center no-repeat;
+    -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 50% 100%, 0% 80%);
+    clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 50% 100%, 0% 80%);
+    opacity: 0.4;
+    height: 300px;
+}
+
+.user-profile__name {
+    text-align: center;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.user-profile__name>p {
+    color: var(--color-name);
+    font-size: var(--font-size-large);
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.user-profile__name>span {
+    color: var(--color-tag);
+    font-family: var(--font-family-merriweather);
+    font-size: var(--font-size-small);
+}
+
+.user-profile__image {
+    background: url("https://images.pexels.com/photos/733252/pexels-photo-733252.png?auto=compress&cs=tinysrgb&h=120&w=120") center center;
+    border-radius: 3em;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    height: 5em;
+    width: 5em;
+    transform: translate(-50%, -50%);
+}
+
+.user-profile__follow {
+    font-family: var(--font-family-merriweather);
+    margin-bottom: 20px;
+    position: relative;
+    top: -30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: black;
+}
+
+.user-profile__follow>p {
+    text-align: center;
+    margin-top: 0;
+}
+
+.user-profile__follow>p>p {
+    margin: 0;
+}
+
+/* 3. User posts */
+.user-posts {
+    max-width: 500px;
+    position: relative;
+    top: -30px;
+}
+
+/* 4. User post */
+.user-post {
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+    margin-bottom: 10px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.user-post:hover {
+    opacity: 0.7;
+}
+
+.user-post>h1 {
+    color: var(--text-color-h1);
+    font-size: var(--font-size-large);
+}

@@ -44,6 +44,8 @@ def index(request):
 
     return render(request, "main/index.html", context)
 
+"""
+
 def article_details(request, pk):
     # This gives 500 error when article does not exist
     # To avoid this we can use try except or even better is get_object_or_404()
@@ -176,3 +178,5 @@ def like_article(request, pk):
         context["liked"] = True
 
     return render(request, "main/partials/user_likes.html", context)
+
+"""
