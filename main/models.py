@@ -10,11 +10,12 @@ class Article(models.Model):
     title = models.CharField(max_length=256)
     content = RichTextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    # thumbnail = models.ImageField(upload_to="images", blank=True)
+    # TODO
+    # Validator for image dimensitions
 
     likes = models.ManyToManyField(User, blank=True, related_name="likes")
     comment = models.ManyToManyField("Comment", blank=True)
-    # TODO
-    # Need to add one to many field so we can have on_delete
 
     tag = models.ForeignKey("Tag", on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
