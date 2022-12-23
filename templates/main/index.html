@@ -41,13 +41,8 @@
                         <h3 class="mb-0">{{ article.title }}</h3>
                         <div class="mb-1 text-muted">{{ article.created_at|date:"jS F Y" }}</div>
                         <div class="mb-auto" id="blog-content">{{ article.content|truncatewords_html:20|safe }}</div>
-                        <a href="#" class="stretched-link">Continue reading</a>
+                        <a href={% url 'article_details' article.pk %} class="stretched-link">Continue reading</a>
                     </div>
-                        <div class="col-md-4">
-                            <img src="{% static 'main/media/img1.png' %}"
-                                 class="img-fluid rounded-start"
-                                 alt="..."/>
-                        </div>
                 </div>
             </div>
         {% empty %}
@@ -58,7 +53,7 @@
         <div class="col-md-8">
             <h3 class="pb-4 mb-4 fst-italic border-bottom">Recent Articles</h3>
             {% for article in latest_articles %}
-                <div class="card mb-4">
+                <div class="card mb-4 border border-1">
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img src="{% static 'main/media/img1.png' %}"
@@ -85,6 +80,7 @@
                                 <h5 class="card-title">{{ article.title }}</h5>
                                 <div class="mb-1 text-muted">{{ article.created_at|date:"jS F Y" }}</div>
                                 <div class="card-text">{{ article.content|truncatewords_html:50|safe }}</div>
+                                <a href={% url 'article_details' article.pk %}>Continue reading</a>
                             </div>
                             <div class="card-footer text-end text-muted">
                                 <div class="row">
@@ -93,8 +89,8 @@
                                     </div>
                                     <div class="col">
                                         <small class="text-muted">
-                                            <i class="fa-regular fa-heart p-1"> 12</i>
-                                            <i class="fa-regular fa-comment p-1"> 2</i>
+                                            <i class="fa-regular fa-heart p-1"> {{ article.likes|length }}</i>
+                                            <i class="fa-regular fa-comment p-1"> {{ article.comment|length }}</i>
                                         </small>
                                     </div>
                                 </div>

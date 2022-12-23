@@ -44,7 +44,6 @@ def index(request):
 
     return render(request, "main/index.html", context)
 
-"""
 
 def article_details(request, pk):
     # This gives 500 error when article does not exist
@@ -74,11 +73,14 @@ def article_details(request, pk):
         "liked" : None
     }
 
-    if article.likes.all().contains(request.user):
+    print(type(request.user))
+    print(request.user)
+    if request.user != "AnonymousUser" and article.likes.all().contains(request.user):
         context["liked"] = True
 
     return render(request, "main/article_details.html", context)
 
+"""
 def user_details(request, pk):
     # user = models.User.objects.get(pk = pk)
     user = get_object_or_404(models.User, pk = pk)
