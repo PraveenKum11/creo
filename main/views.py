@@ -8,7 +8,6 @@ from django.http import (
     HttpResponseRedirect,
     HttpResponse,
 )
-from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.contrib import messages
 
@@ -59,7 +58,7 @@ def article_details(request, pk):
     if request.method == "POST":
         comment_form = forms.Comment(request.POST)
         if comment_form.is_valid():
-            commentor = comment_form.cleaned_data["commentor"]
+            commentor = request.user
             comment_content = comment_form.cleaned_data["comment_content"]
 
             article.comment.create(commentor = commentor, comment_content = comment_content)
@@ -81,25 +80,6 @@ def article_details(request, pk):
     return render(request, "main/article_details.html", context)
 
 """
-def user_details(request, pk):
-    # user = models.User.objects.get(pk = pk)
-    user = get_object_or_404(models.User, pk = pk)
-
-    context = {
-        "user" : user,
-    }
-
-    return render(request, "main/user_details.html", context)
-
-def tag_details(request, pk):
-    tag = get_object_or_404(models.Tag, pk = pk)
-
-    context = {
-        "tag" : tag,
-    }
-    
-    return render(request, "main/tag_details.html", context)
-
 @login_required(login_url="/auth/login")
 def create_article(request):
     article_form = forms.Article()
@@ -182,3 +162,11 @@ def like_article(request, pk):
     return render(request, "main/partials/user_likes.html", context)
 
 """
+
+def get_profile(request, pk):
+    user = get_object_or_404(models.User, pk = pk)
+    context = {
+        "profile" : user.profile,
+    }
+
+    return render(request, "main/profile.html", context)

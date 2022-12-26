@@ -1,0 +1,44 @@
+{% load widget_tweaks %}
+
+<div class="row height d-flex justify-content-start align-items-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="p-2">
+                <h6>Comments</h6>
+            </div>
+            <div class="mt-1 d-flex flex-row align-items-center p-3 form-color gap-3">
+                <img src={{ user.profile.img.url }}
+                     width="50"
+                     height="50"
+                     class="rounded-circle mr-2">
+                <form method="POST" id="post-comment">
+                    {% csrf_token %}
+                    {% render_field comment_form.comment_content cols="70" type="text" class="form-control" placeholder="Share your thoughts..." %}
+                </form>
+                <button form="post-comment" class="btn rounded-pill btn-dark" type="submit">Go</button>
+            </div>
+            <div class="mt-2">
+
+                {% for comment in article.comment.all %}
+                    <div class="d-flex flex-row p-3 gap-3">
+                        <img src={{ comment.commentor.profile.img.url }}
+                            width="40"
+                            height="40"
+                            class="rounded-circle mr-3">
+                        <div class="w-100">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex flex-row align-items-center">
+                                    <span class="mr-2">{{ comment.commentor }}</span>
+                                </div>
+                                <small>{{ comment.comment_dt|timesince }} ago</small>
+                            </div>
+                            <p class="text-justify comment-text mb-0">
+                                {{ comment.comment_content }}
+                            </p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

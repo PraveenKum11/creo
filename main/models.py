@@ -5,6 +5,7 @@ from django.core.validators import (
 from django.contrib.auth.models import User
 
 from ckeditor.fields import RichTextField
+from PIL import Image
 
 class Article(models.Model):
     title = models.CharField(max_length=256)
@@ -24,7 +25,7 @@ class Article(models.Model):
         return self.title
 
 class Comment(models.Model):
-    commentor = models.CharField(max_length=50)
+    commentor = models.ForeignKey(User, on_delete=models.CASCADE)
     comment_content = models.TextField(max_length=256)
     comment_dt = models.DateTimeField(auto_now_add=True)
 
@@ -36,3 +37,20 @@ class Tag(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    img = models.ImageField(default="default.jpg", upload_to="profile_pics")
+
+    # Overriding the save method of model
+    def save(self, *args, **kwargs):
+        super().save()
+
+        img = Image.open(self.img.path)
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.img.path)
+
+    def __str__(self):
+        return f"{self.user.username} Profile"

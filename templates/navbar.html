@@ -2,7 +2,7 @@
     <header class="blog-header lh-1 py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">
             <div class="col-4 pt-1">
-                <a class="link-secondary" href="#">Subscribe</a>
+                <a class="link-secondary" href="#">Publish</a>
             </div>
             <div class="col-4 text-center">
                 <a class="blog-header-logo text-dark" href={% url 'home' %}>Creo</a>
@@ -29,7 +29,7 @@
                         {{ user.username }}
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href={% url 'cauth:profile' %}>Profile</a></li>
+                        <li><a class="dropdown-item" href={% url 'profile' user.pk %}>Profile</a></li>
                         <li><a class="dropdown-item" href="#">Saved Articles</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href={% url 'cauth:logout' %}>Sign out</a></li>

@@ -10,6 +10,7 @@ urlpatterns = [
     # path("create_article", views.create_article, name = "create_article"),
     # path("delete_article/<int:pk>", views.delete_article, name = "delete_article"),
     # path("edit_article/<int:pk>", views.edit_article, name = "edit_article"),
+    path("profile/<int:pk>", views.get_profile, name = "profile"),
 ]
 
 htmx_urlpatterns = [

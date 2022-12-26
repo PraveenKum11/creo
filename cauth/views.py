@@ -1,7 +1,4 @@
-from django.shortcuts import (
-    render,
-    redirect,
-)
+from django.shortcuts import render
 from django.contrib.auth import (
         authenticate,
         login,
@@ -73,10 +70,3 @@ def check_username(request):
         return HttpResponse("<div id='username-error' class='error'>This username exists</div>")
     else:
         return HttpResponse("<div id='username-error' class='success'>This username is available</div>")
-
-def get_profile(request):
-    context = {
-        "profile" : models.Profile.objects.get(pk = request.user.pk)
-    }
-
-    return render(request, "cauth/profile.html", context)

@@ -7,4 +7,5 @@ admin.site.register([
     models.Article,
     models.Comment,
     models.Tag,
+    models.Profile,
 ])
