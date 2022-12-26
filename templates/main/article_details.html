@@ -5,7 +5,7 @@
 
     <article class="blog-post mt-4">
         <h2 class="blog-post-title mb-1">{{ article.title }}</h2>
-        <p class="blog-post-meta">January 1, 2021 by <a href="#">Mark</a></p>
+        <p class="blog-post-meta">{{ article.created_at|date:"jS M Y" }} by <a href="#">{{ article.user }}</a></p>
 
         {{ article.content|safe }}
     </article>

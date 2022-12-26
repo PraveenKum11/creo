@@ -1,4 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import (
+    render,
+    redirect,
+)
 from django.contrib.auth import (
         authenticate,
         login,
@@ -12,7 +15,10 @@ from django.http import (
 from django.contrib.auth.models import User
 from django.contrib import messages
 
-from cauth import forms
+from cauth import (
+    forms,
+    models,
+)
 
 # Create your views here.
 
@@ -45,30 +51,18 @@ def logout_user(request):
     return HttpResponseRedirect("/auth/login")
 
 def register(request):
-    register_form = forms.Register()
+    form = forms.UserRegisterForm()
 
     if request.method == "POST":
-        register_form = forms.Register(request.POST)
-        if register_form.is_valid():
-            clean_user = {
-                "username" : register_form.cleaned_data["username"],
-                "password" : register_form.cleaned_data["password"],
-            }
-            confirm_password = register_form.cleaned_data["confirm_password"]
-
-            if clean_user["password"] != confirm_password:
-                messages.error(request, "Password did not match")
-                return HttpResponseRedirect(request.path_info) # Page refresh
-
-            if get_user_model().objects.filter(username = clean_user["username"]).exists():
-                messages.error(request, "Username already exists")
-                return HttpResponseRedirect(request.path_info)
-            else:
-                User.objects.create_user(**clean_user)
-                return HttpResponseRedirect("/auth/login")
+        form = forms.UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            messages.success(request, f"Account created for {username}")
+            return HttpResponseRedirect("/auth/login")
 
     context = {
-        "register_form" : register_form,
+        "form" : form,
     }
 
     return render(request, "cauth/register.html", context)
@@ -79,3 +73,10 @@ def check_username(request):
         return HttpResponse("<div id='username-error' class='error'>This username exists</div>")
     else:
         return HttpResponse("<div id='username-error' class='success'>This username is available</div>")
+
+def get_profile(request):
+    context = {
+        "profile" : models.Profile.objects.get(pk = request.user.pk)
+    }
+
+    return render(request, "cauth/profile.html", context)

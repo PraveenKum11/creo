@@ -1,14 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block head %}
     <link rel="stylesheet" href={% static 'cauth/register.css' %} />
 {% endblock head %}
 
 {% block container %}
-
     <main class="form-signin w-100 m-auto text-center mt-5">
-        <form>
+
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
             {% comment %} <img class="mb-4"
                  src="/docs/5.2/assets/brand/bootstrap-logo.svg"
                  alt=""
@@ -16,28 +26,19 @@
                  height="57"> {% endcomment %}
             <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
             <div class="form-floating">
-                <input type="text"
-                       class="form-control"
-                       id="floatingInput"
-                       placeholder="myUniqueUsername">
+                {% render_field form.username type="text" class="form-control" id="floatingInput" placeholder="myUniqueUsername" %}
                 <label for="floatingInput">Username</label>
             </div>
             <div class="form-floating">
-                <input
-                       id = "get-password"
-                       type="password"
-                       class="form-control"
-                       id="floatingPassword"
-                       placeholder="Password">
+                {% render_field form.email type="email" class="form-control" id="get-email" placeholder="mymail@mail.com" %}
+                <label for="floatingInput">Email</label>
+            </div>
+            <div class="form-floating">
+                {% render_field form.password1 id="get-password" type="password" class="form-control" id="floatingPassword" placeholder="Password" %}
                 <label for="floatingPassword">Password</label>
             </div>
             <div class="form-floating">
-                <input 
-                       id="confirm-password"
-                       type="password"
-                       class="form-control"
-                       id="floatingPassword"
-                       placeholder="Confirm Password">
+                {% render_field form.password2 id="confirm-password" type="password" class="form-control" id="floatingPassword" placeholder="Confirm Password" %}
                 <label for="floatingPassword">Confirm Password</label>
             </div>
             <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button>

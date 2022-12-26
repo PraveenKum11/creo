@@ -45,6 +45,11 @@
     {% block body %}{% endblock body %}
 
     <main class="container" style="min-height: 100vh;">
+        <div class="col-md-8">
+            {% if messages %} {% for message in messages %}
+            <div class="alert alert-{{ message.tag }}">{{ message }}</div>
+            {% endfor %} {% endif %}
+        </div>
         {% block container %}{% endblock container %}
     </main>
 

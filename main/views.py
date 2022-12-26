@@ -73,10 +73,10 @@ def article_details(request, pk):
         "liked" : None
     }
 
-    print(type(request.user))
-    print(request.user)
-    if request.user != "AnonymousUser" and article.likes.all().contains(request.user):
-        context["liked"] = True
+    # print(type(request.user))
+    # print(request.user)
+    # if request.user != "AnonymousUser" and article.likes.all().contains(request.user):
+    #     context["liked"] = True
 
     return render(request, "main/article_details.html", context)
 

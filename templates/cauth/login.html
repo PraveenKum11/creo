@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block head %}
     <link rel="stylesheet" href={% static 'cauth/login.css' %} />
@@ -8,27 +9,20 @@
 {% block container %}
 
     <main class="form-signin m-auto mt-5 text-center">
-        <form>
+        <form method="POST">
+            {% csrf_token %}
             <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
             <div class="form-floating">
-                <input type="text"
-                       class="form-control"
-                       id="floatingInput"
-                       placeholder="YourUserName">
+                {% render_field form.username type="text" class="form-control" id="floatingInput" placeholder="YourUserName" %}
                 <label for="floatingInput">Username</label>
             </div>
             <div class="form-floating">
-                <input type="password"
-                       class="form-control"
-                       id="floatingPassword"
-                       placeholder="Password">
+                {% render_field form.password type="password" class="form-control" id="floatingPassword" placeholder="Password" %}
                 <label for="floatingPassword">Password</label>
             </div>
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" value="remember-me">
-                    Remember me
-                </label>
+            <div class="link-secondary p-3">
+                Don't have a account yet?
+                <a href={% url 'cauth:register' %}>Register</a>
             </div>
             <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
             {% comment %} <p class="mt-5 mb-3 text-muted">© 2017–2022</p> {% endcomment %}

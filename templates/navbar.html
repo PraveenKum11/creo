@@ -29,7 +29,7 @@
                         {{ user.username }}
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item" href={% url 'cauth:profile' %}>Profile</a></li>
                         <li><a class="dropdown-item" href="#">Saved Articles</a></li>
                         <li><hr class="dropdown-divider" /></li>
                         <li><a class="dropdown-item" href={% url 'cauth:logout' %}>Sign out</a></li>

@@ -39,7 +39,7 @@
                             <strong class="d-inline-block mb-2 text-success">{{ article.tag }}</strong>
                         {% endif %}
                         <h3 class="mb-0">{{ article.title }}</h3>
-                        <div class="mb-1 text-muted">{{ article.created_at|date:"jS F Y" }}</div>
+                        <div class="mb-1 text-muted">{{ article.created_at|date:"jS M Y" }}</div>
                         <div class="mb-auto" id="blog-content">{{ article.content|truncatewords_html:20|safe }}</div>
                         <a href={% url 'article_details' article.pk %} class="stretched-link">Continue reading</a>
                     </div>
@@ -78,7 +78,7 @@
                                     <strong class="d-inline-block mb-2 text-success">{{ article.tag }}</strong>
                                 {% endif %}
                                 <h5 class="card-title">{{ article.title }}</h5>
-                                <div class="mb-1 text-muted">{{ article.created_at|date:"jS F Y" }}</div>
+                                <div class="mb-1 text-muted">{{ article.created_at|date:"jS M Y" }}</div>
                                 <div class="card-text">{{ article.content|truncatewords_html:50|safe }}</div>
                                 <a href={% url 'article_details' article.pk %}>Continue reading</a>
                             </div>
