@@ -3,17 +3,14 @@ from django.db.models.signals import (
 )
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from main import models
 
-from PIL import Image
+from main import models
+from main.image_generator import Photo
+
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        profile = models.Profile.objects.create(user=instance)
-
-        image = Image.open(r"C:\Users\pkkp0\Documents\pydev\web_dev\blog_web\static\main\media\img5.jpg")
-        output_size = (300, 300)
-        if image.height > 300 or image.width > 300:
-            image.thumbnail(output_size)
-        image.save(profile.img.path)
+        img = Photo()
+        img_path = img.create_photo()
+        models.Profile.objects.create(user=instance, img=img_path)

@@ -1,0 +1,6 @@
+cred.py
+__pycache__
+.vscode
+env
+media
+static
