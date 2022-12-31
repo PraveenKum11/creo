@@ -11,7 +11,7 @@ class Article(models.Model):
     title = models.CharField(max_length=256)
     content = RichTextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    # thumbnail = models.ImageField(upload_to="images", blank=True)
+    thumbnail = models.ImageField(upload_to="profile_pics", blank=True)
     # TODO
     # Validator for image dimensitions
 

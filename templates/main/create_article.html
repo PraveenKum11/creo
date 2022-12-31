@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block container %}
+    <form method="POST">
+        {% csrf_token %}
+        <!-- Text input -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="article-title">Title</label>
+            {% render_field article_form.title type="text" id="article-title" class="form-control" %}
+        </div>
+        <!-- Content input -->
+        <div class="form-outline mb-4">
+            <label class="form-label" for="article-content">Content</label>
+            <br />
+            {{ article_form.media }}
+            {% render_field article_form.content class="form-control" id="article-content" %}
+        </div>
+        <!-- Select Tag -->
+            {% render_field article_form.tag class="form-select" id="article-tag" %}
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
+    </form>
+{% endblock container %}

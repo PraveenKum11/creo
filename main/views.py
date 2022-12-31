@@ -3,6 +3,8 @@ from django.shortcuts import (
     get_object_or_404,
 )
 
+from main.management.commands.image_generator import Photo
+
 from django.contrib.auth.decorators import login_required
 from django.http import (
     HttpResponseRedirect,
@@ -26,7 +28,7 @@ def index(request):
     #        -> to order in reverse order add '-' in front on the column name
     trending_articles = models.Article.objects \
         .all() \
-        .order_by("-likes")[:6]
+        .order_by("-likes")[:2]
     latest_articles = models.Article.objects \
         .all() \
         .order_by("-created_at")
@@ -79,23 +81,27 @@ def article_details(request, pk):
 
     return render(request, "main/article_details.html", context)
 
-"""
 @login_required(login_url="/auth/login")
 def create_article(request):
     article_form = forms.Article()
+    print("------------> Here get")
 
     if request.method == "POST":
+        print("------------> Here")
         article_form = forms.Article(request.POST)
-
-        # tag handeling
         tag = models.Tag.objects.get(pk = request.POST["tag"])
+
+        thumbnail = Photo(type="Article")
+        thumbnail.create_photo()
+        print(thumbnail.path)
 
         if article_form.is_valid():
             new_article = {
                 "title" : request.POST["title"],
                 "content" : request.POST["content"],
                 "tag" : tag,
-                "user" : get_user_model().objects.filter(username=request.POST["username"])[0],
+                "user" : request.user,
+                "thumbnail" : thumbnail.path,
             }
             models.Article.objects.create(**new_article)
             return HttpResponseRedirect("/")
@@ -106,6 +112,7 @@ def create_article(request):
 
     return render(request, "main/create_article.html", context)
 
+"""
 @login_required(login_url="/auth/login")
 def delete_article(request, pk):
     article = get_object_or_404(models.Article.objects, pk = pk)
