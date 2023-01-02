@@ -12,8 +12,6 @@ class Article(models.Model):
     content = RichTextField()
     created_at = models.DateTimeField(auto_now_add=True)
     thumbnail = models.ImageField(upload_to="profile_pics", blank=True)
-    # TODO
-    # Validator for image dimensitions
 
     likes = models.ManyToManyField(User, blank=True, related_name="likes")
     comment = models.ManyToManyField("Comment", blank=True)
@@ -41,6 +39,8 @@ class Tag(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     img = models.ImageField(default="default.jpg", upload_to="profile_pics")
+    location = models.CharField(max_length=50, default="Earth", blank=True, null=True)
+    hobbies = models.TextField()
 
     # Overriding the save method of model
     def save(self, *args, **kwargs):

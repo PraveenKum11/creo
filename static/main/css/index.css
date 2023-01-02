@@ -1,6 +1,7 @@
 :root {
     --accent-color: #F75C03;
     --accent-color1: #26a69a;
+    --col1: #E288F9;
     /* --header-font: 'Dancing Script', cursive; */
 }
 
@@ -17,8 +18,8 @@
     /* width: 100vw; */
     width: auto;
     height: 30rem;
-    background-image: url(../media/img6.jpg);
-    background-position: bottom;
+    background-image: url(../media/creo_front.png);
+    background-position: center;
     background-size: cover;
     display: flex;
     align-items: center;

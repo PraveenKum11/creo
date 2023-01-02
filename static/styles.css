@@ -6,6 +6,10 @@
   font-family: var(--main-font);
 }
 
+::selection {
+  background: #F2C1B6;
+}
+
 
 .blog-header {
   border-bottom: 1px solid #e5e5e5;
@@ -86,4 +90,20 @@
 
 .blog-footer p:last-child {
   margin-bottom: 0;
+}
+
+a {
+  color: #BF1304;
+}
+
+a:hover {
+  color: #A60303;
+}
+
+.unselectable {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
+    user-select: none;
 }

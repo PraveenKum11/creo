@@ -7,10 +7,17 @@
                 <h6>Comments</h6>
             </div>
             <div class="mt-1 d-flex flex-row align-items-center p-3 form-color gap-3">
-                <img src={{ user.profile.img.url }}
-                     width="50"
-                     height="50"
-                     class="rounded-circle mr-2">
+                {% if user.is_authenticated %}
+                    <img src={{ user.profile.img.url }}
+                        width="50"
+                        height="50"
+                        class="rounded-circle mr-2" />
+                {% else %}
+                    <img src="https://cdn-icons-png.flaticon.com/512/21/21104.png"
+                        width="50"
+                        height="50"
+                        class="rounded-circle mr-2" />
+                {% endif %}
                 <form method="POST" id="post-comment">
                     {% csrf_token %}
                     {% render_field comment_form.comment_content cols="70" type="text" class="form-control" placeholder="Share your thoughts..." %}
@@ -24,7 +31,7 @@
                         <img src={{ comment.commentor.profile.img.url }}
                             width="40"
                             height="40"
-                            class="rounded-circle mr-3">
+                            class="rounded-circle mr-3" />
                         <div class="w-100">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex flex-row align-items-center">

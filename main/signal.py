@@ -11,6 +11,6 @@ from main.management.commands.image_generator import Photo
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        img = Photo(type="Profile")
+        img = Photo(type="Profile", query="nature")
         img_path = img.create_photo()
         models.Profile.objects.create(user=instance, img=img_path)

@@ -2,18 +2,34 @@
 {% load static %}
 
 {% block head %}
-    <link rel="stylesheet" href={% static 'main/css/comment_section.css' %}>
+    <link rel="stylesheet" href={% static 'main/css/comment_section.css' %} />
+    <link rel="stylesheet" href={% static 'main/css/like_article.css' %} />
 {% endblock head %}
 
 {% block container %}
-    <article class="blog-post mt-4">
+    <article class="blog-post mt-1 p-4">
         <h2 class="blog-post-title mb-2">{{ article.title }}</h2>
-        <p class="blog-post-meta">
-            {{ article.created_at|date:"jS M Y" }} by
-            <i class="fa-regular fa-user p-1"> <a href={% url 'profile' article.user.pk %}>{{ article.user }}</a></i>
-            <i class="fa-regular fa-heart p-1"> {{ article.likes|length }}</i>
-            <i class="fa-regular fa-comment p-1"> {{ article.comment|length }}</i>
-        </p>
+
+        <div class="blog-post-meta d-flex mb-3 align-items-center">
+
+            <div class="p-2">
+            <i class="fa-regular fa-user p-1"><a class="text-secondary text-decoration-none" href={% url 'profile' article.user.pk %}><b>{{ article.user }}</b></a></i>
+            • {{ article.created_at|date:"M j, Y" }}
+            </div>
+
+            <div class="p-2">
+            {% include "main/partials/user_likes.html" %}
+            <i class="fa-regular fa-comment p-1"> {{ article.comment.all|length }}</i>
+            </div>
+
+            <div class="ms-auto p-2">
+            {% if user.is_authenticated and user == article.user %}
+            {% include "main/user_options.html" %}
+            {% endif %}
+            </div>
+        </div>
+
+        <hr class="border border-1 opacity-50">
         {{ article.content|safe }}
 
         <br>

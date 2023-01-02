@@ -22,9 +22,6 @@
                                     <a class="dropdown-item" href={% url 'profile' user.pk %}>Profile</a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="#">Saved Articles</a>
-                                </li>
-                                <li>
                                     <hr class="dropdown-divider" />
                                 </li>
                                 <li>
@@ -48,6 +45,7 @@
     </header>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
+            <div></div>
             <button class="navbar-toggler"
                     type="button"
                     data-bs-toggle="collapse"
@@ -61,7 +59,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% for tag in tags %}
                     <li class="nav-item">
-                        <a class="nav-link link-secondary p-2" href="#">{{ tag }}</a>
+                        <a class="nav-link link-secondary p-2" href={% url 'tag_list' tag.pk %}>{{ tag }}</a>
                     </li>
                 {% endfor %}
                 </ul>

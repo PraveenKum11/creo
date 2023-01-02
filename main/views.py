@@ -17,6 +17,8 @@ from main import (
     models,
     forms,
 )
+import datetime
+import calendar
 
 # Create your views here.
 
@@ -32,14 +34,13 @@ def index(request):
     latest_articles = models.Article.objects \
         .all() \
         .order_by("-created_at")
-    # tags = models.Article.objects \
-    #     .values_list("tag", flat=True) \
-    #     .distinct()
+    all_articles = models.Article.objects.order_by("created_at")
     tags = models.Tag.objects.all().distinct()
 
     context = {
         "trending_articles" : trending_articles,
         "latest_articles" : latest_articles,
+        "all_articles" : all_articles,
         "tags" : tags,
     }
 
@@ -74,26 +75,21 @@ def article_details(request, pk):
         "liked" : None
     }
 
-    # print(type(request.user))
-    # print(request.user)
-    # if request.user != "AnonymousUser" and article.likes.all().contains(request.user):
-    #     context["liked"] = True
+    if request.user.is_authenticated and article.likes.all().contains(request.user):
+        context["liked"] = True
 
     return render(request, "main/article_details.html", context)
 
 @login_required(login_url="/auth/login")
 def create_article(request):
     article_form = forms.Article()
-    print("------------> Here get")
 
     if request.method == "POST":
-        print("------------> Here")
         article_form = forms.Article(request.POST)
         tag = models.Tag.objects.get(pk = request.POST["tag"])
 
-        thumbnail = Photo(type="Article")
+        thumbnail = Photo(type="Article", query=tag.name)
         thumbnail.create_photo()
-        print(thumbnail.path)
 
         if article_form.is_valid():
             new_article = {
@@ -112,7 +108,6 @@ def create_article(request):
 
     return render(request, "main/create_article.html", context)
 
-"""
 @login_required(login_url="/auth/login")
 def delete_article(request, pk):
     article = get_object_or_404(models.Article.objects, pk = pk)
@@ -132,10 +127,10 @@ def edit_article(request, pk):
         "content" : article.content,
         "tag" : article.tag,
     }
-    edit_form = forms.Article(initial=form_init)
+    article_form = forms.Article(initial=form_init)
 
     context = {
-        "edit_form" : edit_form,
+        "article_form" : article_form,
     }
 
     if request.method == "POST":
@@ -148,6 +143,7 @@ def edit_article(request, pk):
         return HttpResponseRedirect(reverse(article_details, kwargs={"pk" : pk}))
 
     return render(request, "main/edit_article.html", context)
+
 
 def like_article(request, pk):
     article = get_object_or_404(models.Article, pk = pk)
@@ -168,7 +164,31 @@ def like_article(request, pk):
 
     return render(request, "main/partials/user_likes.html", context)
 
-"""
+def tag_list(request, pk):
+    tag = models.Tag.objects.get(pk = pk)
+    article_list = tag.article_set.all()
+
+    context = {
+        "article_list" : article_list,
+        "tag" : tag,
+    }
+
+    return render(request, "main/tag_list.html", context)
+
+
+def article_archive(request, year, month):
+    start_date = datetime.date(year, month, 1)
+    end_date = datetime.date(year, month, calendar.monthrange(year, month)[1])
+    article_list = models.Article.objects.filter(created_at__range=(start_date, end_date))
+
+    context = {
+        "year" : year,
+        "month" : month,
+        "article_list" : article_list,
+    }
+
+    return render(request, "main/article_archive.html", context)
+
 
 def get_profile(request, pk):
     user = get_object_or_404(models.User, pk = pk)
@@ -177,3 +197,11 @@ def get_profile(request, pk):
     }
 
     return render(request, "main/profile.html", context)
+
+def edit_profile(request, pk):
+    form = forms.Profile()
+    context = {
+        "form" : form,
+    }
+
+    return render(request, "main/edit_profile.html", context)

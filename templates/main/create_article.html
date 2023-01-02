@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
+{% block head %}
+    <style>
+        .django-ckeditor-widget{
+            width: 100%;
+        }
+    </style>
+{% endblock head %}
 {% block container %}
     <form method="POST">
         {% csrf_token %}
@@ -16,8 +23,8 @@
             {% render_field article_form.content class="form-control" id="article-content" %}
         </div>
         <!-- Select Tag -->
-            {% render_field article_form.tag class="form-select" id="article-tag" %}
+        {% render_field article_form.tag class="form-select" id="article-tag" %}
         <!-- Submit button -->
-        <button type="submit" class="btn btn-primary btn-block mb-4">Submit</button>
+        <button type="submit" class="btn btn-primary btn-block mt-4 mb-4">Submit</button>
     </form>
 {% endblock container %}

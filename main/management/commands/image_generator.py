@@ -7,13 +7,13 @@ from PIL import Image
 
 
 class Pexel:
-    def __init__(self) -> None:
+    def __init__(self, query) -> None:
         self.url : str = "https://api.pexels.com/v1/search"
         self.headers : dict = {
             "Authorization" : cred.pexel_api
         }
         self.params : dict = {
-            "query" : "nature",
+            "query" : query,
             "orientation" : "portrait",
             # "size" : ,
             # "page" : ,
@@ -35,17 +35,18 @@ class Pexel:
 
 
 class Photo:
-    def __init__(self, type) -> None:
+    def __init__(self, type, query) -> None:
         self.img : bytes = None
         self.img_name : str = str(uuid.uuid4()) + ".jpg"
         self.type : str = type
+        self.query : str = query
         if type == "Profile":
             self.path : str = f"C:\\Users\\pkkp0\\Documents\\pydev\\web_dev\\blog_web\\media\\profile_pics\\{self.img_name}"
         elif type == "Article":
             self.path : str = f"C:\\Users\\pkkp0\\Documents\\pydev\\web_dev\\blog_web\\media\\article_img\\{self.img_name}"
 
     def create_photo(self) -> str:
-        img = Pexel()
+        img = Pexel(self.query)
         if self.type == "Profile":
             self.img = img.fetch_img("medium")
         elif self.type == "Article":

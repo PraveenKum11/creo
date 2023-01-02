@@ -1,0 +1,20 @@
+<form method="POST" style="display: inline;" id="like_form">
+    {% csrf_token %}
+    {% if user.is_authenticated %}
+        {% if liked %}
+            <i class="fa-solid fa-heart like-increase unselectable" hx-post={% url 'like_article' article.pk %} hx-trigger="click" hx-swap="outerHTML" hx-target="#like_form"> {{ article.likes.all.count }}</i>
+        {% else %}
+            <i class="fa-regular fa-heart like-simple unselectable" hx-post={% url 'like_article' article.pk %} hx-trigger="click" hx-swap="outerHTML" hx-target="#like_form"> {{ article.likes.all.count }}</i>
+        {% endif %}
+    {% else %}
+        <i class="fa-regular fa-heart like-simple unselectable" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="please sign in"> {{ article.likes.all.count }}</i>
+        {% block script %}
+            <script>
+                const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+                const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+            </script>
+        {% endblock script %}
+    {% endif %}
+</form>
+
+
