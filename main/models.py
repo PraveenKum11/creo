@@ -40,7 +40,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     img = models.ImageField(default="default.jpg", upload_to="profile_pics")
     location = models.CharField(max_length=50, default="Earth", blank=True, null=True)
-    hobbies = models.TextField()
+    about = models.TextField(blank=True, null=True)
 
     # Overriding the save method of model
     def save(self, *args, **kwargs):

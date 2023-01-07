@@ -1,22 +1,22 @@
 from django.shortcuts import (
     render,
     get_object_or_404,
+    redirect,
 )
-
-from main.management.commands.image_generator import Photo
-
 from django.contrib.auth.decorators import login_required
 from django.http import (
     HttpResponseRedirect,
-    HttpResponse,
 )
 from django.urls import reverse
 from django.contrib import messages
+from django.core.paginator import Paginator
 
+from main.management.commands.image_generator import Photo
 from main import (
     models,
     forms,
 )
+from cauth import forms as cauth_forms
 import datetime
 import calendar
 
@@ -31,17 +31,20 @@ def index(request):
     trending_articles = models.Article.objects \
         .all() \
         .order_by("-likes")[:2]
-    latest_articles = models.Article.objects \
+    recent_articles = models.Article.objects \
         .all() \
         .order_by("-created_at")
+    
+    paginator = Paginator(recent_articles, 2)
+    page_number = request.GET.get("page")
+    page_articles = paginator.get_page(page_number)
+
     all_articles = models.Article.objects.order_by("created_at")
-    tags = models.Tag.objects.all().distinct()
 
     context = {
         "trending_articles" : trending_articles,
-        "latest_articles" : latest_articles,
+        "recent_articles" : page_articles,
         "all_articles" : all_articles,
-        "tags" : tags,
     }
 
     return render(request, "main/index.html", context)
@@ -199,9 +202,24 @@ def get_profile(request, pk):
     return render(request, "main/profile.html", context)
 
 def edit_profile(request, pk):
-    form = forms.Profile()
+
+    if request.method == "POST":
+        u_form = cauth_forms.UserUpdateForm(request.POST, instance=request.user)
+        p_form = forms.ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, "Your Account has been updated!")
+
+            return HttpResponseRedirect(reverse(get_profile, kwargs={"pk" : pk}))
+
+    u_form = cauth_forms.UserUpdateForm(instance=request.user)
+    p_form = forms.ProfileUpdateForm(instance=request.user.profile)
+
     context = {
-        "form" : form,
+        "u_form" : u_form,
+        "p_form" : p_form,
     }
 
     return render(request, "main/edit_profile.html", context)

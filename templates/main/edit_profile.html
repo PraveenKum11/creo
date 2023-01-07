@@ -1,8 +1,30 @@
 {% extends 'base.html' %}
-
+{% load widget_tweaks %}
 {% block container %}
-    <form method="POST">
+    <form method="POST" class="m-4">
         {% csrf_token %}
-        {{ form }}
+        <div class="row mb-3">
+            <div class="col">
+                <label for="change-fname" class="form-label">First Name</label>
+                {% render_field u_form.first_name type="text" class="form-control" id="change-fname" %}
+            </div>
+            <div class="col">
+                <label for="change-lname" class="form-label">Last Name</label>
+                {% render_field u_form.last_name type="text" class="form-control" id="change-lname" %}
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="change-email" class="form-label">Email address</label>
+            {% render_field u_form.email  type="email" class="form-control" id="change-email" placeholder="name@example.com" %}
+        </div>
+        <div class="mb-3">
+            <label for="change-loc" class="form-label">Location</label>
+            {% render_field p_form.location type="text" class="form-control" id="change-loc" placeholder="Mars?" %}
+        </div>
+        <div class="mb-3">
+            <label for="change-about" class="form-label">About</label>
+            {% render_field p_form.about class="form-control" id="change-about" rows="3" %}
+        </div>
+        <button type="submit" class="btn btn-dark">Submit</button>
     </form>
 {% endblock container %}

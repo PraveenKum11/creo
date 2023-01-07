@@ -39,9 +39,7 @@
                             <strong class="d-inline-block mb-2 text-success">{{ article.tag }}</strong>
                         {% endif %}
                         <h3 class="mb-0">{{ article.title|truncatewords_html:6|safe }}</h3>
-                        <div class="mb-1 text-muted">
-                        {{ article.created_at|date:"M j, Y" }}
-                        </div>
+                        <div class="mb-1 text-muted">{{ article.created_at|date:"M j, Y" }}</div>
                         <div class="mb-auto" id="blog-content">{{ article.content|truncatewords_html:20|safe }}</div>
                         <a href={% url 'article_details' article.pk %} class="stretched-link">Continue reading</a>
                     </div>
@@ -54,16 +52,14 @@
     <div class="row g-5">
         <div class="col-md-8">
             <h3 class="pb-4 mb-4 fst-italic border-bottom">Recent Articles</h3>
-            {% for article in latest_articles %}
+            {% for article in recent_articles %}
                 <div class="card mb-4 border border-1">
                     <div class="row g-0">
                         <div class="col-md-4">
                             {% comment %} <img src="{% static 'main/media/img1.png' %}"
-                                 class="img-fluid rounded-start"
-                                 alt="..."/> {% endcomment %}
-                            <img src={{ article.thumbnail.url }}
-                                 class="img-fluid rounded-start"
-                                 alt="..."/>
+      class="img-fluid rounded-start"
+      alt="..."/> {% endcomment %}
+                            <img src={{ article.thumbnail.url }} class="img-fluid rounded-start" alt="..."/>
                         </div>
                         <div class="col-md-8" style="display: flex; flex-direction: column;">
                             <div class="card-body">
@@ -82,15 +78,20 @@
                                 {% else %}
                                     <strong class="d-inline-block mb-2 text-success">{{ article.tag }}</strong>
                                 {% endif %}
-                                <h5 class="card-title">{{ article.title }}</h5>
+                                <h5 class="card-title">
+                                    {{ article.title }}
+                                </h5>
                                 <hr class="border border-1 opacity-50">
-                                <div class="card-text">{{ article.content|truncatewords_html:50|safe }}</div>
+                                <div class="card-text">
+                                    {{ article.content|truncatewords_html:50|safe }}
+                                </div>
                                 <a href={% url 'article_details' article.pk %}>Continue reading</a>
                             </div>
                             <div class="card-footer text-end text-muted">
                                 <div class="row">
                                     <div class="col text-start">
-                                        <a href={% url 'profile' article.user.pk %} class="text-secondary text-decoration-none">
+                                        <a href="{% url 'profile' article.user.pk %}"
+                                           class="text-secondary text-decoration-none">
                                             <b>{{ article.user }}</b>
                                         </a>
                                         • {{ article.created_at|date:"M j, Y" }}
@@ -108,34 +109,45 @@
                 </div>
             {% endfor %}
             <nav class="blog-pagination" aria-label="Pagination">
-                <a class="btn btn-outline-primary rounded-pill" href="#">Older</a>
+                    <span class="step-links">
+                        {% if recent_articles.has_previous %}
+                            <a class="btn btn-outline-primary rounded-pill" href="?page={{ recent_articles.previous_page_number }}">Newer</a>
+                        {% endif %}
+                        {% if recent_articles.has_next %}
+                            <a class="btn btn-outline-secondary rounded-pill" href="?page={{ recent_articles.next_page_number }}">Older</a>
+                        {% endif %}
+                    </span>
+
             </nav>
         </div>
         <div class="col-md-4">
             <div class="position-sticky" style="top: 2rem;">
                 <div class="p-4 mb-3 bg-light rounded">
-                    <h4 class="fst-italic">About</h4>
+                    <h4 class="fst-italic">
+                        About
+                    </h4>
                     <p class="mb-0">
                         Creo : latin for create
                     </p>
                 </div>
-
                 <div class="p-4">
                     {% regroup all_articles by created_at.year as year_list %}
                     <ul>
-                    {% for year in year_list %}
-                        <li>{{ year.grouper }}
-                            {% regroup year.list by created_at.month as month_list %}
-                            <ul>
-                            {% for month in month_list %}
-                                <li><a href="{% url 'article_archive' year.grouper month.grouper %}">{{ month.list.0.created_at|date:'M' }} ({{ month.list|length }})</a></li>
-                            {% endfor %}
-                            </ul>
-                        </li>
-                    {% endfor %}
+                        {% for year in year_list %}
+                            <li>
+                                {{ year.grouper }}
+                                {% regroup year.list by created_at.month as month_list %}
+                                <ul>
+                                    {% for month in month_list %}
+                                        <li>
+                                            <a href="{% url 'article_archive' year.grouper month.grouper %}">{{ month.list.0.created_at|date:'M' }} ({{ month.list|length }})</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endfor %}
                     </ul>
                 </div>
-
                 <div class="p-4">
                     <h4 class="fst-italic">
                         Connect with me
@@ -143,19 +155,19 @@
                     <ol class="list-unstyled">
                         <li>
                             <i class="fa-sharp fa-solid fa-user-secret"></i>
-                            <a href="https://praveenkum11.github.io/portfolio/">Portfolio</a>
+                            <a href="https://praveenkum11.github.io/portfolio/" target="blank">Portfolio</a>
                         </li>
                         <li>
                             <i class="fa-brands fa-github-alt"></i>
-                            <a href="https://github.com/PraveenKum11">GitHub</a>
+                            <a href="https://github.com/PraveenKum11" target="blank">GitHub</a>
                         </li>
                         <li>
                             <i class="fa-brands fa-linkedin"></i>
-                            <a href="https://www.linkedin.com/in/praveen-kumar-07bb781b6/">LinkedIn</a>
+                            <a href="https://www.linkedin.com/in/praveen-kumar-07bb781b6/" target="blank">LinkedIn</a>
                         </li>
                         <li>
                             <i class="fa-brands fa-instagram"></i>
-                            <a href="https://www.instagram.com/praveen_kumar011/">Instagram</a>
+                            <a href="https://www.instagram.com/praveen_kumar011/" target="blank">Instagram</a>
                         </li>
                     </ol>
                 </div>

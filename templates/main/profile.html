@@ -14,7 +14,14 @@
                             </div>
                             <div class="ms-3" style="margin-top: 130px;">
                                 <h5>{{ profile.user.first_name }} {{ profile.user.last_name }}</h5>
-                                <p>New York</p>
+                                <p>{{ profile.location }}</p>
+                            </div>
+                            <div class="ms-auto p-4">
+                                <a href={% url 'edit_profile' user.pk %}>
+                                    <button class="btn btn-danger">
+                                            Edit Profile
+                                    </button>
+                                </a>
                             </div>
                         </div>
                         <div class="p-4 text-black" style="background-color: #f8f9fa;">
@@ -29,9 +36,9 @@
                             <div class="mb-5">
                                 <p class="lead fw-normal mb-1">About</p>
                                 <div class="p-4" style="background-color: #f8f9fa;">
-                                    <p class="font-italic mb-1">Web Developer</p>
-                                    <p class="font-italic mb-1">Lives in New York</p>
-                                    <p class="font-italic mb-0">Photographer</p>
+                                    <p class="font-italic mb-1">
+                                        {{ profile.about }}
+                                    </p>
                                 </div>
                             </div>
                             <div class="d-flex justify-content-between align-items-center mb-4">

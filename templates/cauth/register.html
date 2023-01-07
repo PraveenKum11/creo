@@ -1,29 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load widget_tweaks %}
-
 {% block head %}
     <link rel="stylesheet" href={% static 'cauth/register.css' %} />
 {% endblock head %}
-
 {% block container %}
-    <main class="form-signin w-100 m-auto text-center mt-5">
 
+    <div class="col">
         {% if form.errors %}
             {% for field in form %}
-                {% for error in field.errors %}
-                    <p>{{ error }}</p>
-                {% endfor %}
+                {% for error in field.errors %}<div class="alert alert-danger" role="alert">{{ error }}</div>{% endfor %}
             {% endfor %}
         {% endif %}
+    </div>
 
+    <main class="form-signin w-100 m-auto text-center mt-5">
+        <div id="username-error"></div>
         <form method="POST">
             {% csrf_token %}
-            {% comment %} <img class="mb-4"
-                 src="/docs/5.2/assets/brand/bootstrap-logo.svg"
-                 alt=""
-                 width="72"
-                 height="57"> {% endcomment %}
+            {% comment %} <img class="mb-4" src="/docs/5.2/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> {% endcomment %}
             <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
             <div class="form-floating">
                 {% render_field form.first_name type="text" class="form-control" id="get-fname" placeholder="First Name" %}
@@ -34,7 +29,7 @@
                 <label for="get-lname">Last Name</label>
             </div>
             <div class="form-floating">
-                {% render_field form.username type="text" class="form-control" id="get-username" placeholder="myUniqueUsername" %}
+                {% render_field form.username type="text" class="form-control" id="get-username" placeholder="myUniqueUsername" hx-post="/auth/check_username/" hx-swap="outerhtml" hx-trigger="keyup changed delay:2s" hx-target="#username-error" %}
                 <label for="get-username">Username</label>
             </div>
             <div class="form-floating">
@@ -53,5 +48,4 @@
             {% comment %} <p class="mt-5 mb-3 text-muted">© 2017–2022</p> {% endcomment %}
         </form>
     </main>
-
 {% endblock container %}

@@ -32,3 +32,11 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+#username-error .error {
+  color: red;
+}
+
+#username-error .success {
+  color: green;
+}

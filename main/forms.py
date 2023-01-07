@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import User
 
 from main import models
@@ -15,8 +14,7 @@ class Article(forms.ModelForm):
         model = models.Article
         fields = ("title", "content", "tag")
 
-class Profile(UserChangeForm):
+class ProfileUpdateForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = "__all__"
-        # fields = ("first_name", "last_name", "email", "location", "hobbies")
+        model = models.Profile
+        fields = ("img", "location", "about")

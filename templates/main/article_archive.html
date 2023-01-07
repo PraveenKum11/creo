@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% block container %}
-    <h2>{{ tag }}</h2>
-    <div class="list-group">
-        {% for article in article_list %}
-            <a href={% url 'article_details' article.pk %} class="list-group-item list-group-item-action">{{ article.title }}</a>
-        {% endfor %}
+    <div class="m-4">
+        <h2>{{ tag }}</h2>
+        <div class="list-group">
+            {% for article in article_list %}
+                <a href="{% url 'article_details' article.pk %}"
+                   class="list-group-item list-group-item-action">{{ article.title }}</a>
+            {% endfor %}
+        </div>
     </div>
 {% endblock container %}
