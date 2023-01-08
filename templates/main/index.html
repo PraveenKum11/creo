@@ -51,7 +51,7 @@
     </div>
     <div class="row g-5">
         <div class="col-md-8">
-            <h3 class="pb-4 mb-4 fst-italic border-bottom">Recent Articles</h3>
+            <h3 class="pb-4 mb-4 fst-italic border-bottom" id="recent-articles">Recent Articles</h3>
             {% for article in recent_articles %}
                 <div class="card mb-4 border border-1">
                     <div class="row g-0">
@@ -111,10 +111,10 @@
             <nav class="blog-pagination" aria-label="Pagination">
                     <span class="step-links">
                         {% if recent_articles.has_previous %}
-                            <a class="btn btn-outline-primary rounded-pill" href="?page={{ recent_articles.previous_page_number }}">Newer</a>
+                            <a class="btn btn-outline-primary rounded-pill" href="?page={{ recent_articles.previous_page_number }}#recent-articles">Newer</a>
                         {% endif %}
                         {% if recent_articles.has_next %}
-                            <a class="btn btn-outline-secondary rounded-pill" href="?page={{ recent_articles.next_page_number }}">Older</a>
+                            <a class="btn btn-outline-secondary rounded-pill" href="?page={{ recent_articles.next_page_number }}#recent-articles">Older</a>
                         {% endif %}
                     </span>
 
