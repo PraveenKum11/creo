@@ -1,16 +1,16 @@
 import requests
 import json
-import cred
 import random
 import uuid
+import os
 from PIL import Image
 
-
+from django.conf import settings
 class Pexel:
     def __init__(self, query) -> None:
         self.url : str = "https://api.pexels.com/v1/search"
         self.headers : dict = {
-            "Authorization" : cred.pexel_api
+            "Authorization" : os.getenv("pexel_api")
         }
         self.params : dict = {
             "query" : query,
@@ -41,9 +41,11 @@ class Photo:
         self.type : str = type
         self.query : str = query
         if type == "Profile":
-            self.path : str = f"C:\\Users\\pkkp0\\Documents\\pydev\\web_dev\\blog_web\\media\\profile_pics\\{self.img_name}"
+            # self.path : str = f"C:\\Users\\pkkp0\\Documents\\pydev\\web_dev\\blog_web\\media\\profile_pics\\{self.img_name}"
+            self.path : str = os.path.join(settings.MEDIA_ROOT, "profile_pics", self.img_name)
         elif type == "Article":
-            self.path : str = f"C:\\Users\\pkkp0\\Documents\\pydev\\web_dev\\blog_web\\media\\article_img\\{self.img_name}"
+            # self.path : str = f"C:\\Users\\pkkp0\\Documents\\pydev\\web_dev\\blog_web\\media\\article_img\\{self.img_name}"
+            self.path : str = os.path.join(settings.MEDIA_ROOT, "article_img", self.img_name)
 
     def create_photo(self) -> str:
         img = Pexel(self.query)

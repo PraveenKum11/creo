@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    container_name: postgres_db
+
+  django_gunicorn:
+    image: gunicorn
+    volumes:
+      - .:/django_app
+      - ./media:/django_app/media
+    env_file:
+      - .env
+    build: 
+      context: .
+    expose:
+      - 8000
+    # ports:
+    #   - "8000:8000"
+    depends_on:
+      - db
+    container_name: gunicorn_container
+  
+  nginx:
+    image: nginx
+    build: ./nginx
+    volumes:
+      - media:/home/web_app/media_files
+    ports:
+      - 80:80
+    depends_on:
+      - django_gunicorn
+    container_name: nginx_container
+
+volumes:
+  media:

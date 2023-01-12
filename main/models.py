@@ -38,7 +38,7 @@ class Tag(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    img = models.ImageField(default="default.jpg", upload_to="profile_pics")
+    img = models.ImageField(max_length=250 ,default="default.jpg", upload_to="profile_pics")
     location = models.CharField(max_length=50, default="Earth", blank=True, null=True)
     about = models.TextField(blank=True, null=True)
 
