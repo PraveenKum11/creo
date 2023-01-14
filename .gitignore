@@ -1,5 +1,4 @@
 data
-cred.py
 __pycache__
 .vscode
 env
@@ -7,3 +6,4 @@ media
 static
 db.sqlite3
 staticfiles
+django/.env
