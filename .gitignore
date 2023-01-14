@@ -3,7 +3,5 @@ __pycache__
 .vscode
 env
 media
-static
 db.sqlite3
-staticfiles
-django/.env
+.env
