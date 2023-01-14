@@ -4,7 +4,7 @@ services:
   db:
     image: postgres
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - ./django/data/db:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
@@ -13,13 +13,13 @@ services:
 
   django_gunicorn:
     image: gunicorn
-    volumes:
-      - .:/django_app
-      - ./media:/django_app/media
-    env_file:
-      - .env
     build: 
-      context: .
+      context: ./django
+    volumes:
+      - ./django:/usr/src/django_app
+      - media_files:/usr/src/django_app/media
+    env_file:
+      - ./django/.env
     expose:
       - 8000
     # ports:
@@ -32,7 +32,8 @@ services:
     image: nginx
     build: ./nginx
     volumes:
-      - media:/home/web_app/media_files
+      - media_files:/mediafiles/usr/src/django_app/media
+      # mimicking the directory stucture to img.url 
     ports:
       - 80:80
     depends_on:
@@ -40,4 +41,4 @@ services:
     container_name: nginx_container
 
 volumes:
-  media:
+  media_files:

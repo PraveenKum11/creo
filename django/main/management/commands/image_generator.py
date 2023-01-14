@@ -41,10 +41,8 @@ class Photo:
         self.type : str = type
         self.query : str = query
         if type == "Profile":
-            # self.path : str = f"C:\\Users\\pkkp0\\Documents\\pydev\\web_dev\\blog_web\\media\\profile_pics\\{self.img_name}"
             self.path : str = os.path.join(settings.MEDIA_ROOT, "profile_pics", self.img_name)
         elif type == "Article":
-            # self.path : str = f"C:\\Users\\pkkp0\\Documents\\pydev\\web_dev\\blog_web\\media\\article_img\\{self.img_name}"
             self.path : str = os.path.join(settings.MEDIA_ROOT, "article_img", self.img_name)
 
     def create_photo(self) -> str:
