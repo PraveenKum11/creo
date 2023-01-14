@@ -50,7 +50,7 @@ class Photo:
         if self.type == "Profile":
             self.img = img.fetch_img("medium")
         elif self.type == "Article":
-            self.img = img.fetch_img("large")
+            self.img = img.fetch_img("medium")
 
         with open(self.path, "wb") as f:
             f.write(self.img)
