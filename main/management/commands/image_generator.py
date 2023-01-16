@@ -4,13 +4,14 @@ import random
 import uuid
 import os
 from PIL import Image
+import cloudinary.uploader
 
 from django.conf import settings
 class Pexel:
     def __init__(self, query) -> None:
         self.url : str = "https://api.pexels.com/v1/search"
         self.headers : dict = {
-            "Authorization" : os.getenv("pexel_api")
+            "Authorization" : os.getenv("PEXEL_API")
         }
         self.params : dict = {
             "query" : query,
@@ -40,10 +41,19 @@ class Photo:
         self.img_name : str = str(uuid.uuid4()) + ".jpg"
         self.type : str = type
         self.query : str = query
-        if type == "Profile":
-            self.path : str = os.path.join(settings.MEDIA_ROOT, "profile_pics", self.img_name)
-        elif type == "Article":
-            self.path : str = os.path.join(settings.MEDIA_ROOT, "article_img", self.img_name)
+        # if type == "Profile":
+        #     self.url : str = os.path.join("profile_pics", self.img_name)
+        # elif type == "Article":
+        #     self.url : str = os.path.join("article_img", self.img_name)
+
+    def upload_to_cloudnary(self):
+        if self.type == "Profile":
+            folder = "media/profile_pics"
+        elif self.type == "Article":
+            folder = "media/article_img"
+
+        upload_response = cloudinary.uploader.upload(self.img, folder=folder)
+        return (upload_response["secure_url"], upload_response["public_id"])
 
     def create_photo(self) -> str:
         img = Pexel(self.query)
@@ -52,8 +62,9 @@ class Photo:
         elif self.type == "Article":
             self.img = img.fetch_img("medium")
 
-        with open(self.path, "wb") as f:
-            f.write(self.img)
-        
-        return self.path
+        self.url, self.path = self.upload_to_cloudnary()
 
+        # with open(self.path, "wb") as f:
+        #     f.write(self.img)
+
+        return self.path

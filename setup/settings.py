@@ -50,8 +50,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
-    'widget_tweaks',
-    'ckeditor'
+    # for storing media files on cloudinary
+    "cloudinary_storage",
+    "cloudinary",
+
+    "widget_tweaks",
+    "ckeditor"
 ]
 
 MIDDLEWARE = [
@@ -142,7 +146,8 @@ STATICFILES_DIRS = [
 
 # Media Files
 MEDIA_URL = '/media/' # Public URL at the browser
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Directory where uploaded media is saved.
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # Directory where uploaded media is saved.
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

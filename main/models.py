@@ -11,7 +11,7 @@ class Article(models.Model):
     title = models.CharField(max_length=256)
     content = RichTextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    thumbnail = models.ImageField(upload_to="profile_pics", blank=True)
+    thumbnail = models.ImageField(upload_to="article_img", blank=True)
 
     likes = models.ManyToManyField(User, blank=True, related_name="likes")
     comment = models.ManyToManyField("Comment", blank=True)
@@ -43,14 +43,14 @@ class Profile(models.Model):
     about = models.TextField(blank=True, null=True)
 
     # Overriding the save method of model
-    def save(self, *args, **kwargs):
-        super().save()
+    # def save(self, *args, **kwargs):
+    #     super().save()
 
-        img = Image.open(self.img.path)
-        if img.height > 300 or img.width > 300:
-            output_size = (300, 300)
-            img.thumbnail(output_size)
-            img.save(self.img.path)
+    #     img = Image.open(self.img.path)
+    #     if img.height > 300 or img.width > 300:
+    #         output_size = (300, 300)
+    #         img.thumbnail(output_size)
+    #         img.save(self.img.path)
 
     def __str__(self):
         return f"{self.user.username} Profile"
