@@ -13,12 +13,15 @@ class Pexel:
         self.headers : dict = {
             "Authorization" : os.getenv("PEXEL_API")
         }
+
+        per_page = 20
+        page = random.randint(1, 5)
         self.params : dict = {
             "query" : query,
             "orientation" : "portrait",
             # "size" : ,
-            # "page" : ,
-            # "per_page" : ,
+            "page" : page,
+            "per_page" : per_page,
         }
     
     def fetch_img(self, img_quality="large") -> bytes:
@@ -51,8 +54,11 @@ class Photo:
             folder = "media/profile_pics"
         elif self.type == "Article":
             folder = "media/article_img"
+        eager = [
+            {"width": 10, "height": 10, "crop": "crop"},
+        ]
 
-        upload_response = cloudinary.uploader.upload(self.img, folder=folder)
+        upload_response = cloudinary.uploader.upload(self.img, folder=folder, eager=eager)
         return (upload_response["secure_url"], upload_response["public_id"])
 
     def create_photo(self) -> str:
@@ -60,7 +66,7 @@ class Photo:
         if self.type == "Profile":
             self.img = img.fetch_img("medium")
         elif self.type == "Article":
-            self.img = img.fetch_img("medium")
+            self.img = img.fetch_img("large")
 
         self.url, self.path = self.upload_to_cloudnary()
 

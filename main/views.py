@@ -30,11 +30,11 @@ def index(request):
     #        -> to order in reverse order add '-' in front on the column name
     trending_articles = models.Article.objects \
         .all() \
-        .order_by("-likes")[:2]
+        .order_by("likes")[:2]
     recent_articles = models.Article.objects \
         .all() \
         .order_by("-created_at")
-    
+
     paginator = Paginator(recent_articles, 2)
     page_number = request.GET.get("page")
     page_articles = paginator.get_page(page_number)
@@ -223,3 +223,8 @@ def edit_profile(request, pk):
     }
 
     return render(request, "main/edit_profile.html", context)
+
+
+def consts(request):
+  return dict(
+  )

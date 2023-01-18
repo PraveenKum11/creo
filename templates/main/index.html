@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load cloudinary %}
 {% block head %}
     <link rel="stylesheet" href={% static 'main/css/index.css' %} />
 {% endblock head %}
@@ -59,7 +60,8 @@
                             {% comment %} <img src="{% static 'main/media/img1.png' %}"
       class="img-fluid rounded-start"
       alt="..."/> {% endcomment %}
-                            <img src={{ article.thumbnail.url }} class="img-fluid rounded-start" alt="..."/>
+                            {% comment %} <img src={{ article.thumbnail.url }} class="img-fluid rounded-start" alt="article_img" /> {% endcomment %}
+                            {% cloudinary article.thumbnail.name class="img-fluid rounded-start %}
                         </div>
                         <div class="col-md-8" style="display: flex; flex-direction: column;">
                             <div class="card-body">

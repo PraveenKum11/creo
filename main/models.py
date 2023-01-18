@@ -11,6 +11,7 @@ class Article(models.Model):
     title = models.CharField(max_length=256)
     content = RichTextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    created_at.editable = True # so the field can be edited from admin panel
     thumbnail = models.ImageField(upload_to="article_img", blank=True)
 
     likes = models.ManyToManyField(User, blank=True, related_name="likes")
