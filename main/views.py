@@ -30,7 +30,7 @@ def index(request):
     #        -> to order in reverse order add '-' in front on the column name
     trending_articles = models.Article.objects \
         .all() \
-        .order_by("likes")[:4]
+        .order_by("likes")[:2]
     recent_articles = models.Article.objects \
         .all() \
         .order_by("-created_at")
