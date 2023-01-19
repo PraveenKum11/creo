@@ -169,7 +169,7 @@ def like_article(request, pk):
 
 def tag_list(request, pk):
     tag = models.Tag.objects.get(pk = pk)
-    article_list = tag.article_set.all()
+    article_list = tag.article_set.all().order_by("-created_at")
 
     paginator = Paginator(article_list, 10)
     page_number = request.GET.get("page")

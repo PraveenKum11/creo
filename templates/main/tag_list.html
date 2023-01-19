@@ -65,14 +65,13 @@
             {% endfor %}
             <nav class="blog-pagination" aria-label="Pagination">
                     <span class="step-links">
-                        {% if recent_articles.has_previous %}
-                            <a class="btn btn-outline-primary rounded-pill" href="?page={{ recent_articles.previous_page_number }}#recent-articles">Newer</a>
+                        {% if article_list.has_previous %}
+                            <a class="btn btn-outline-primary rounded-pill" href="?page={{ article_list.previous_page_number }}#recent-articles">Newer</a>
                         {% endif %}
-                        {% if recent_articles.has_next %}
-                            <a class="btn btn-outline-secondary rounded-pill" href="?page={{ recent_articles.next_page_number }}#recent-articles">Older</a>
+                        {% if article_list.has_next %}
+                            <a class="btn btn-outline-secondary rounded-pill" href="?page={{ article_list.next_page_number }}#recent-articles">Older</a>
                         {% endif %}
                     </span>
-
             </nav>
         </div>
         <div class="col-md-4 pt-5">
