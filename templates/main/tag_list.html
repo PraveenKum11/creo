@@ -18,21 +18,6 @@
                         </div>
                         <div class="col-md-8" style="display: flex; flex-direction: column;">
                             <div class="card-body">
-                                {% if article.tag|stringformat:"s" == "Science" %}
-                                    <strong class="d-inline-block mb-2 text-primary">{{ article.tag }}</strong>
-                                {% elif article.tag|stringformat:"s" == "World" %}
-                                    <strong class="d-inline-block mb-2 text-secondary">{{ article.tag }}</strong>
-                                {% elif article.tag|stringformat:"s" == "Technology" %}
-                                    <strong class="d-inline-block mb-2 text-danger">{{ article.tag }}</strong>
-                                {% elif article.tag|stringformat:"s" == "Design" %}
-                                    <strong class="d-inline-block mb-2 text-dark">{{ article.tag }}</strong>
-                                {% elif article.tag|stringformat:"s" == "Culture" %}
-                                    <strong class="d-inline-block mb-2 text-info">{{ article.tag }}</strong>
-                                {% elif article.tag|stringformat:"s" == "Business" %}
-                                    <strong class="d-inline-block mb-2 text-warning">{{ article.tag }}</strong>
-                                {% else %}
-                                    <strong class="d-inline-block mb-2 text-success">{{ article.tag }}</strong>
-                                {% endif %}
                                 <h5 class="card-title">
                                     {{ article.title }}
                                 </h5>
