@@ -1,9 +1,132 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load cloudinary %}
+
 {% block container %}
-    <h2>{{ tag }}</h2>
-    <div class="list-group">
-        {% for article in article_list %}
-            <a href={% url 'article_details' article.pk %} class="list-group-item list-group-item-action">{{ article.title }}</a>
-        {% endfor %}
+    <div class="row g-5">
+        <div class="col-md-8">
+            <h3 class="pb-1 pt-2 mb-4 border-bottom" id="tags">{{ tag }}</h3>
+            {% for article in article_list %}
+                <div class="card mb-4 border border-1">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            {% comment %} <img src="{% static 'main/media/img1.png' %}"
+      class="img-fluid rounded-start"
+      alt="..."/> {% endcomment %}
+                            {% comment %} <img src={{ article.thumbnail.url }} class="img-fluid rounded-start" alt="article_img" /> {% endcomment %}
+                            {% cloudinary article.thumbnail.name class="img-fluid rounded-start" %}
+                        </div>
+                        <div class="col-md-8" style="display: flex; flex-direction: column;">
+                            <div class="card-body">
+                                {% if article.tag|stringformat:"s" == "Science" %}
+                                    <strong class="d-inline-block mb-2 text-primary">{{ article.tag }}</strong>
+                                {% elif article.tag|stringformat:"s" == "World" %}
+                                    <strong class="d-inline-block mb-2 text-secondary">{{ article.tag }}</strong>
+                                {% elif article.tag|stringformat:"s" == "Technology" %}
+                                    <strong class="d-inline-block mb-2 text-danger">{{ article.tag }}</strong>
+                                {% elif article.tag|stringformat:"s" == "Design" %}
+                                    <strong class="d-inline-block mb-2 text-dark">{{ article.tag }}</strong>
+                                {% elif article.tag|stringformat:"s" == "Culture" %}
+                                    <strong class="d-inline-block mb-2 text-info">{{ article.tag }}</strong>
+                                {% elif article.tag|stringformat:"s" == "Business" %}
+                                    <strong class="d-inline-block mb-2 text-warning">{{ article.tag }}</strong>
+                                {% else %}
+                                    <strong class="d-inline-block mb-2 text-success">{{ article.tag }}</strong>
+                                {% endif %}
+                                <h5 class="card-title">
+                                    {{ article.title }}
+                                </h5>
+                                <hr class="border border-1 opacity-50">
+                                <div class="card-text">
+                                    {{ article.content|truncatewords_html:50|safe }}
+                                </div>
+                                <a href={% url 'article_details' article.pk %}>Continue reading</a>
+                            </div>
+                            <div class="card-footer text-end text-muted">
+                                <div class="row">
+                                    <div class="col text-start">
+                                        <a href="{% url 'profile' article.user.pk %}"
+                                           class="text-secondary text-decoration-none">
+                                            <b>{{ article.user }}</b>
+                                        </a>
+                                        • {{ article.created_at|date:"M j, Y" }}
+                                    </div>
+                                    <div class="col">
+                                        <small class="text-muted">
+                                            <i class="fa-regular fa-heart p-1"> {{ article.likes.all|length }}</i>
+                                            <i class="fa-regular fa-comment p-1"> {{ article.comment.all|length }}</i>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <nav class="blog-pagination" aria-label="Pagination">
+                    <span class="step-links">
+                        {% if recent_articles.has_previous %}
+                            <a class="btn btn-outline-primary rounded-pill" href="?page={{ recent_articles.previous_page_number }}#recent-articles">Newer</a>
+                        {% endif %}
+                        {% if recent_articles.has_next %}
+                            <a class="btn btn-outline-secondary rounded-pill" href="?page={{ recent_articles.next_page_number }}#recent-articles">Older</a>
+                        {% endif %}
+                    </span>
+
+            </nav>
+        </div>
+        <div class="col-md-4 pt-5">
+            <div class="position-sticky" style="top: 2rem;">
+                <div class="p-4 mb-3 bg-light rounded">
+                    <h4 class="fst-italic">
+                        About
+                    </h4>
+                    <p class="mb-0">
+                        Creo : latin for create
+                    </p>
+                </div>
+                <div class="p-4">
+                    {% regroup all_articles by created_at.year as year_list %}
+                    <ul>
+                        {% for year in year_list %}
+                            <li>
+                                {{ year.grouper }}
+                                {% regroup year.list by created_at.month as month_list %}
+                                <ul>
+                                    {% for month in month_list %}
+                                        <li>
+                                            <a href="{% url 'article_archive' year.grouper month.grouper %}">{{ month.list.0.created_at|date:'M' }} ({{ month.list|length }})</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="p-4">
+                    <h4 class="fst-italic">
+                        Connect with me
+                    </h4>
+                    <ol class="list-unstyled">
+                        <li>
+                            <i class="fa-sharp fa-solid fa-user-secret"></i>
+                            <a href="https://praveenkum11.github.io/portfolio/" target="blank">Portfolio</a>
+                        </li>
+                        <li>
+                            <i class="fa-brands fa-github-alt"></i>
+                            <a href="https://github.com/PraveenKum11" target="blank">GitHub</a>
+                        </li>
+                        <li>
+                            <i class="fa-brands fa-linkedin"></i>
+                            <a href="https://www.linkedin.com/in/praveen-kumar-07bb781b6/" target="blank">LinkedIn</a>
+                        </li>
+                        <li>
+                            <i class="fa-brands fa-instagram"></i>
+                            <a href="https://www.instagram.com/praveen_kumar011/" target="blank">Instagram</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock container %}

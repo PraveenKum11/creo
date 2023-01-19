@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load cloudinary %}
 {% block container %}
     <section class="h-100 gradient-custom-2">
         <div class="container py-5 h-100">
@@ -10,14 +11,14 @@
                              style="background-color: #000;
                                     height:200px">
                             <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
-                                <img src={{ profile.img.url }} alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2" style="width: 150px; z-index: 1">
+                                <img src={{ profile.img.url }} alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2" style="max-height: 230px; z-index: 1">
                             </div>
                             <div class="ms-3" style="margin-top: 130px;">
                                 <h5>{{ profile.user.first_name }} {{ profile.user.last_name }}</h5>
-                                <p>{{ profile.location }}</p>
+                                <p>From {{ profile.location }}</p>
                             </div>
                             <div class="ms-auto p-4">
-                                {% if user.is_authenticated %}
+                                {% if editable %}
                                     <a href={% url 'edit_profile' user.pk %}>
                                         <button class="btn btn-danger">
                                                 Edit Profile
@@ -49,6 +50,8 @@
                             <div class="list-group">
                                 {% for article in profile.user.article_set.all %}
                                     <a href={% url 'article_details' article.pk %} class="list-group-item list-group-item-action">{{ article }}</a>
+                                {% empty %}
+                                    <p>None found | <a class="link-secondary" href={% url 'create_article' %}>Publish</a> your first article</p>
                                 {% endfor %}
                             </div>
                         </div>

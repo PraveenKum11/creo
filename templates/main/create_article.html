@@ -23,8 +23,41 @@
             {% render_field article_form.content class="form-control" id="article-content" %}
         </div>
         <!-- Select Tag -->
-        {% render_field article_form.tag class="form-select" id="article-tag" %}
+        <div class="form-outline mb-4">
+            <label class="form-label" for="article-tag">Tag</label>
+            {% render_field article_form.tag class="form-select" id="article-tag" %}
+        </div>
         <!-- Submit button -->
-        <button type="submit" class="btn btn-primary btn-block mt-4 mb-4">Submit</button>
+        <div class="d-grid gap-1 d-md-block mb-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="#cancel-edit"
+               data-bs-toggle="modal"
+               data-bs-target="#cancel-edit-modal">
+                <button type="button" class="btn btn-danger">Cancel</button>
+            </a>
+        </div>
     </form>
+    <!-- Modal -->
+    <div class="modal fade"
+         id="cancel-edit-modal"
+         tabindex="-1"
+         aria-labelledby="cancel-edit-label"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="cancel-edit-label">Warning</h1>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">Are you sure you want to cancel ?</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <a href={% url 'home' %} class="btn btn-primary">Yes</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock container %}

@@ -35,7 +35,7 @@ def index(request):
         .all() \
         .order_by("-created_at")
 
-    paginator = Paginator(recent_articles, 2)
+    paginator = Paginator(recent_articles, 5)
     page_number = request.GET.get("page")
     page_articles = paginator.get_page(page_number)
 
@@ -171,8 +171,12 @@ def tag_list(request, pk):
     tag = models.Tag.objects.get(pk = pk)
     article_list = tag.article_set.all()
 
+    paginator = Paginator(article_list, 10)
+    page_number = request.GET.get("page")
+    page_articles = paginator.get_page(page_number)
+
     context = {
-        "article_list" : article_list,
+        "article_list" : page_articles,
         "tag" : tag,
     }
 
@@ -194,9 +198,14 @@ def article_archive(request, year, month):
 
 
 def get_profile(request, pk):
-    user = get_object_or_404(models.User, pk = pk)
+    requested_user = get_object_or_404(models.User, pk = pk)
+    editable = False
+    if requested_user == request.user:
+        editable = True
+
     context = {
-        "profile" : user.profile,
+        "profile" : requested_user.profile,
+        "editable" : editable,
     }
 
     return render(request, "main/profile.html", context)
