@@ -1,13 +1,12 @@
 <!-- Button trigger modal -->
 <span class="float-end">
     <a class="link-secondary" href={% url 'edit_article' article.pk %}>
-        <i class="fa-solid fa-pen-to-square" ></i>
-        Edit
+        <i class="fa-solid fa-pen-to-square"></i>
+        <span class="desktop-only">Edit&nbsp;</span>
     </a>
-    &nbsp
     <a class="link-secondary" href="#delete-article" data-bs-toggle="modal" data-bs-target="#article-delete-modal">
         <i class="fa-solid fa-trash"></i>
-        Delete
+        <span class="desktop-only">Delete</span>
     </a>
 </span>
 
