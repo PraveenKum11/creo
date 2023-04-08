@@ -17,8 +17,6 @@ from cauth import (
     models,
 )
 
-# Create your views here.
-
 def login_user(request):
     error = None
     login_form = forms.Login()
